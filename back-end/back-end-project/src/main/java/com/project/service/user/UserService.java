@@ -8,5 +8,5 @@ import java.util.List;
 public interface UserService {
   User saveUser(UserRequest userRequest);
   List<User> findAll();
-  boolean deleteUser(String id);
+  boolean deleteUser(Integer id);
 }

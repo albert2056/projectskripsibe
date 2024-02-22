@@ -1,9 +1,9 @@
 package com.project.controller;
 
 import com.project.controller.path.ProjectPath;
-import com.project.model.User;
-import com.project.model.request.UserRequest;
-import com.project.service.user.UserService;
+import com.project.model.Outfit;
+import com.project.model.request.OutfitRequest;
+import com.project.service.outift.OutfitService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,24 +19,25 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(value = ProjectPath.USER)
-@Tag(name = "UserCrudController", description = "User CRUD Service API")
-public class UserCrudController {
+@RequestMapping(value = ProjectPath.OUTFIT)
+@Tag(name = "OutfitCrudController", description = "Outfit CRUD Service API")
+public class OutfitCrudController {
 
-  private final UserService userService;
+  private final OutfitService outfitService;
 
   @PostMapping(ProjectPath.CREATE)
-  public User saveUser(@RequestBody UserRequest userRequest) throws Exception {
-    return userService.saveUser(userRequest);
+  public Outfit saveOutfit(@RequestBody OutfitRequest outfitRequest) throws Exception {
+    return outfitService.saveOutfit(outfitRequest);
   }
 
   @GetMapping(ProjectPath.FIND_ALL)
-  public List<User> getUsers() throws Exception {
-    return userService.findAll();
+  public List<Outfit> getOutfit() throws Exception {
+    return outfitService.findAll();
   }
 
   @DeleteMapping(ProjectPath.DELETE)
   public boolean deleteUser(Integer id) throws Exception {
-    return userService.deleteUser(id);
+    return outfitService.deleteOutfit(id);
   }
+
 }

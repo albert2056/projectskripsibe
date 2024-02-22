@@ -1,5 +1,6 @@
 package com.project.impl.user;
 
+import com.project.helper.IdHelper;
 import com.project.model.User;
 import com.project.model.request.UserRequest;
 import com.project.repository.UserRepository;
@@ -18,9 +19,13 @@ public class UserServiceImpl implements UserService {
   @Autowired
   private UserRepository userRepository;
 
+  @Autowired
+  private IdHelper idHelper;
+
   @Override
   public User saveUser(UserRequest userRequest) {
     User user = new User();
+    user.setId(idHelper.getNextSequenceId(User.COLLECTION_NAME));
     user.setRoleId(userRequest.getRoleId());
     user.setName(userRequest.getName());
     user.setPhoneNumber(userRequest.getPhoneNumber());
@@ -35,8 +40,8 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
-  public boolean deleteUser(String id) {
-    User user = userRepository.findById(id).orElse(null);
+  public boolean deleteUser(Integer id) {
+    User user = userRepository.findById(id);
     if (Objects.isNull(user)) {
       return false;
     }

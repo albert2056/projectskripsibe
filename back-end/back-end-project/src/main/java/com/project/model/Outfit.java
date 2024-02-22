@@ -10,12 +10,12 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Document(collection = User.COLLECTION_NAME)
-public class User {
-  public static final String COLLECTION_NAME = "users";
+@Document(collection = Outfit.COLLECTION_NAME)
+public class Outfit {
+  public static final String COLLECTION_NAME = "outfit";
   private Integer id;
-  private Integer roleId;
+  private Integer outfitCategoryId;
   private String name;
-  private String phoneNumber;
-  private String email;
+  private Integer qty;
+  private String image;
 }
