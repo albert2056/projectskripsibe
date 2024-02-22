@@ -9,8 +9,9 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProductRequest {
-  private String productId;
+public class UserRequest {
+  private Integer roleId;
   private String name;
-  private Integer price;
+  private String phoneNumber;
+  private String email;
 }

@@ -1,9 +1,9 @@
 package com.project.controller;
 
 import com.project.controller.path.ProjectPath;
-import com.project.model.Product;
-import com.project.model.request.ProductRequest;
-import com.project.service.product.ProductService;
+import com.project.model.User;
+import com.project.model.request.UserRequest;
+import com.project.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -18,23 +18,23 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(value = ProjectPath.PRODUCT)
-public class ProductCrudController {
+@RequestMapping(value = ProjectPath.USER)
+public class UserCrudController {
 
-  private final ProductService productService;
+  private final UserService userService;
 
   @PostMapping(ProjectPath.CREATE)
-  public Product saveProducts(@RequestBody ProductRequest productRequest) throws Exception {
-    return productService.saveProduct(productRequest);
+  public User saveUser(@RequestBody UserRequest userRequest) throws Exception {
+    return userService.saveUser(userRequest);
   }
 
   @GetMapping(ProjectPath.FIND_ALL)
-  public List<Product> getProduct() throws Exception {
-    return productService.findAll();
+  public List<User> getUsers() throws Exception {
+    return userService.findAll();
   }
 
   @DeleteMapping(ProjectPath.DELETE)
-  public boolean deleteProducts(String id) throws Exception {
-    return productService.deleteProduct(id);
+  public boolean deleteUser(String id) throws Exception {
+    return userService.deleteUser(id);
   }
 }

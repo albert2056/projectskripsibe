@@ -11,11 +11,13 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Document(collection = Product.COLLECTION_NAME)
-public class Product {
-  public static final String COLLECTION_NAME = "products";
+@Document(collection = User.COLLECTION_NAME)
+public class User {
+  public static final String COLLECTION_NAME = "users";
   @Id
-  private String productId;
+  private String id;
+  private Integer roleId;
   private String name;
-  private Integer price;
+  private String phoneNumber;
+  private String email;
 }
