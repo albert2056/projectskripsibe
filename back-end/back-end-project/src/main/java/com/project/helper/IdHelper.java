@@ -1,6 +1,6 @@
 package com.project.helper;
 
-import com.project.model.Sequence;
+import com.project.model.helper.Sequence;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Update;

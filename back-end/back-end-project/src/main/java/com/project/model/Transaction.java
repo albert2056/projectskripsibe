@@ -7,17 +7,24 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.Date;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Document(collection = User.COLLECTION_NAME)
-public class User {
+@Document(collection = Transaction.COLLECTION_NAME)
+public class Transaction {
   public static final String COLLECTION_NAME = "users";
   @Id
   private Integer id;
-  private Integer roleId;
+  private Integer outfitId;
+  private Integer eventId;
+  private Integer userId;
   private String name;
-  private String phoneNumber;
-  private String email;
+  private Integer totalUsher;
+  private Date eventDate;
+  private String venue;
+  private String wo;
+  private Integer totalPrice;
 }

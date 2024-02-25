@@ -1,6 +1,7 @@
 package com.project.model;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
@@ -9,9 +10,11 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Document(collection = "sequence")
-public class Sequence {
+@Builder
+@Document(collection = Event.COLLECTION_NAME)
+public class Event {
+  public static final String COLLECTION_NAME = "event";
   @Id
-  private String id;
-  private int sequenceValue;
+  private Integer id;
+  private String name;
 }
