@@ -1,6 +1,7 @@
 package com.project.impl.user;
 
 import com.project.helper.IdHelper;
+import com.project.helper.PasswordEncoder;
 import com.project.model.User;
 import com.project.model.request.UserRequest;
 import com.project.repository.UserRepository;
@@ -22,6 +23,9 @@ public class UserServiceImpl implements UserService {
   @Autowired
   private IdHelper idHelper;
 
+  @Autowired
+  private PasswordEncoder passwordEncoder;
+
   @Override
   public User saveUser(UserRequest userRequest) {
     User user = new User();
@@ -30,6 +34,7 @@ public class UserServiceImpl implements UserService {
     user.setName(userRequest.getName());
     user.setPhoneNumber(userRequest.getPhoneNumber());
     user.setEmail(userRequest.getEmail());
+    user.setPassword(this.encodePassword(userRequest.getPassword()));
     userRepository.save(user);
     return user;
   }
@@ -47,5 +52,9 @@ public class UserServiceImpl implements UserService {
     }
     userRepository.delete(user);
     return true;
+  }
+
+  private String encodePassword(String password) {
+    return this.passwordEncoder.encode(password);
   }
 }

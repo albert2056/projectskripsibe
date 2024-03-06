@@ -9,11 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class UserResponse {
-  private Integer roleId;
-  private String name;
-  private String phoneNumber;
-  private String email;
-  private String password;
-  private ErrorResponse errorResponse;
+public class ErrorResponse {
+  private Integer statusCode;
+  private String description;
 }

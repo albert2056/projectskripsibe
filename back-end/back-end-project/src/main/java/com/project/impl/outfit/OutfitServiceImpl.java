@@ -1,4 +1,4 @@
-package com.project.impl.user;
+package com.project.impl.outfit;
 
 import com.project.helper.IdHelper;
 import com.project.model.Outfit;
