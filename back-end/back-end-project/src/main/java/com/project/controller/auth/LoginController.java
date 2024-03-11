@@ -1,7 +1,6 @@
 package com.project.controller.auth;
 
 import com.project.controller.path.ProjectPath;
-import com.project.model.response.ErrorResponse;
 import com.project.model.response.UserResponse;
 import com.project.service.auth.AuthService;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -29,8 +28,7 @@ public class LoginController {
       UserResponse userResponse = this.authService.login(email, password);
       return userResponse;
     } catch (Exception e) {
-      return new UserResponse(null, null, null, null, null,
-          new ErrorResponse(401, e.getMessage()));
+      return new UserResponse(null, null, null, null, null, 401, e.getMessage());
     }
   }
 }

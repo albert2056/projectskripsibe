@@ -10,10 +10,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class UserResponse {
-  private Integer roleId;
+  private String role;
   private String name;
   private String phoneNumber;
   private String email;
   private String password;
-  private ErrorResponse errorResponse;
+  private Integer statusCode;
+  private String description;
 }

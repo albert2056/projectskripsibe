@@ -1,8 +1,10 @@
 package com.project.controller;
 
 import com.project.controller.path.ProjectPath;
+import com.project.helper.UserHelper;
 import com.project.model.User;
 import com.project.model.request.UserRequest;
+import com.project.model.response.UserResponse;
 import com.project.service.user.UserService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +26,7 @@ import java.util.List;
 public class UserCrudController {
 
   private final UserService userService;
+  private final UserHelper userHelper;
 
   @PostMapping(ProjectPath.CREATE)
   public User saveUser(@RequestBody UserRequest userRequest) throws Exception {
@@ -31,8 +34,8 @@ public class UserCrudController {
   }
 
   @GetMapping(ProjectPath.FIND_ALL)
-  public List<User> getUsers() throws Exception {
-    return userService.findAll();
+  public List<UserResponse> getUsers() throws Exception {
+    return userHelper.convertUserToUserResponses(userService.findAll());
   }
 
   @DeleteMapping(ProjectPath.DELETE)

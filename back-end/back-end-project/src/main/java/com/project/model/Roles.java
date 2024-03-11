@@ -16,6 +16,5 @@ public class Roles {
   @Id
   public static final String COLLECTION_NAME = "roles";
   private Integer id;
-  private String description;
-  private String email;
+  private String name;
 }

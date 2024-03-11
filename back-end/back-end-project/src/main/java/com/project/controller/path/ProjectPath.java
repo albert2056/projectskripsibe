@@ -3,6 +3,7 @@ package com.project.controller.path;
 public class ProjectPath {
   public static final String USER = "/api/user";
   public static final String OUTFIT = "/api/outfit";
+  public static final String ROLES = "/api/role";
   public static final String LOGIN = "/api/login";
   public static final String CREATE = "/create";
   public static final String FIND_ALL = "/findAll";
