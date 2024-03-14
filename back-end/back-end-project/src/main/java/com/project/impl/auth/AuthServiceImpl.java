@@ -11,6 +11,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Objects;
+
 @Service
 @Slf4j
 public class AuthServiceImpl implements AuthService {
@@ -24,14 +26,22 @@ public class AuthServiceImpl implements AuthService {
 
   @Override
   public UserResponse login(String email, String password) throws Exception {
-    User user = userRepository.findByEmail(email);
+    User user = this.getUser(email);
     if (!authenticateUser(user, email, password)) {
       throw new Exception("Log in failed! Email and Password does not match!");
     }
     return this.userHelper.convertUserToUserResponse(user);
   }
 
-  public boolean authenticateUser(User user, String email, String password) {
+  private User getUser(String email) throws Exception {
+    User user = userRepository.findByEmail(email);
+    if (Objects.isNull(user)) {
+      throw new Exception(String.format("Log in failed! User with email: %s not found!", email));
+    }
+    return user;
+  }
+
+  private boolean authenticateUser(User user, String email, String password) {
     if (StringUtils.isNotBlank(email)) {
       return user.getPassword().equals(this.passwordEncoder.encode(password));
     }

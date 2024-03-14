@@ -6,6 +6,7 @@ public class ProjectPath {
   public static final String ROLES = "/api/role";
   public static final String LOGIN = "/api/login";
   public static final String CREATE = "/create";
+  public static final String CATEGORY = "/category";
   public static final String FIND_ALL = "/findAll";
   public static final String DELETE = "/delete";
 }

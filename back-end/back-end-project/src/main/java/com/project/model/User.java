@@ -21,4 +21,5 @@ public class User {
   private String phoneNumber;
   private String email;
   private String password;
+  private Boolean isDeleted;
 }

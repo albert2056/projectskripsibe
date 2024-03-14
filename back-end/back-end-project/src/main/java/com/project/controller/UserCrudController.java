@@ -29,8 +29,12 @@ public class UserCrudController {
   private final UserHelper userHelper;
 
   @PostMapping(ProjectPath.CREATE)
-  public User saveUser(@RequestBody UserRequest userRequest) throws Exception {
-    return userService.saveUser(userRequest);
+  public UserResponse saveUser(@RequestBody UserRequest userRequest) throws Exception {
+    try {
+      return userService.saveUser(userRequest);
+    } catch (Exception e) {
+      return new UserResponse(null, null, null, null, null, 401, e.getMessage());
+    }
   }
 
   @GetMapping(ProjectPath.FIND_ALL)

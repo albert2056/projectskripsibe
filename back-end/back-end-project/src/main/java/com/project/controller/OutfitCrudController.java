@@ -2,6 +2,7 @@ package com.project.controller;
 
 import com.project.controller.path.ProjectPath;
 import com.project.model.Outfit;
+import com.project.model.OutfitCategory;
 import com.project.model.request.OutfitRequest;
 import com.project.service.outift.OutfitService;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -30,13 +32,18 @@ public class OutfitCrudController {
     return outfitService.saveOutfit(outfitRequest);
   }
 
+  @PostMapping(ProjectPath.CATEGORY + ProjectPath.CREATE)
+  public OutfitCategory saveOutfitCategory(@RequestParam String name) throws Exception {
+    return outfitService.saveOutfitCategory(name);
+  }
+
   @GetMapping(ProjectPath.FIND_ALL)
   public List<Outfit> getOutfit() throws Exception {
     return outfitService.findAll();
   }
 
   @DeleteMapping(ProjectPath.DELETE)
-  public boolean deleteUser(Integer id) throws Exception {
+  public boolean deleteOutfit(Integer id) throws Exception {
     return outfitService.deleteOutfit(id);
   }
 

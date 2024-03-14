@@ -2,7 +2,9 @@ package com.project.impl.outfit;
 
 import com.project.helper.IdHelper;
 import com.project.model.Outfit;
+import com.project.model.OutfitCategory;
 import com.project.model.request.OutfitRequest;
+import com.project.repository.OutfitCategoryRepository;
 import com.project.repository.OutfitRepository;
 import com.project.service.outift.OutfitService;
 import lombok.extern.slf4j.Slf4j;
@@ -20,6 +22,9 @@ public class OutfitServiceImpl implements OutfitService {
   private OutfitRepository outfitRepository;
 
   @Autowired
+  private OutfitCategoryRepository outfitCategoryRepository;
+
+  @Autowired
   private IdHelper idHelper;
 
   @Override
@@ -30,8 +35,15 @@ public class OutfitServiceImpl implements OutfitService {
     outfit.setName(outfitRequest.getName());
     outfit.setQty(outfitRequest.getQty());
     outfit.setImage(outfitRequest.getImage());
-    outfitRepository.save(outfit);
-    return outfit;
+    return outfitRepository.save(outfit);
+  }
+
+  @Override
+  public OutfitCategory saveOutfitCategory(String name) {
+    OutfitCategory outfitCategory = new OutfitCategory();
+    outfitCategory.setId(idHelper.getNextSequenceId(OutfitCategory.COLLECTION_NAME));
+    outfitCategory.setName(name);
+    return outfitCategoryRepository.save(outfitCategory);
   }
 
   @Override
