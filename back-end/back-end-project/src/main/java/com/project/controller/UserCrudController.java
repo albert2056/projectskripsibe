@@ -1,6 +1,7 @@
 package com.project.controller;
 
 import com.project.controller.path.ProjectPath;
+import com.project.helper.IdHelper;
 import com.project.helper.UserHelper;
 import com.project.model.User;
 import com.project.model.request.UserRequest;
@@ -27,12 +28,14 @@ public class UserCrudController {
 
   private final UserService userService;
   private final UserHelper userHelper;
+  private final IdHelper idHelper;
 
   @PostMapping(ProjectPath.CREATE)
   public UserResponse saveUser(@RequestBody UserRequest userRequest) throws Exception {
     try {
       return userService.saveUser(userRequest);
     } catch (Exception e) {
+      this.idHelper.decrementSequenceId(User.COLLECTION_NAME);
       return new UserResponse(null, null, null, null, null, 401, e.getMessage());
     }
   }

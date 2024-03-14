@@ -34,7 +34,7 @@ public class AuthServiceImpl implements AuthService {
   }
 
   private User getUser(String email) throws Exception {
-    User user = userRepository.findByEmail(email);
+    User user = userRepository.findByEmailAndIsDeletedFalse(email);
     if (Objects.isNull(user)) {
       throw new Exception(String.format("Log in failed! User with email: %s not found!", email));
     }

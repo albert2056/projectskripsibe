@@ -27,4 +27,7 @@ public class Transaction {
   private String venue;
   private String wo;
   private Integer totalPrice;
+  private String updatedBy;
+  private Date updatedDate;
+  private Boolean isDeleted;
 }

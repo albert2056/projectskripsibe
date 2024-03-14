@@ -24,4 +24,13 @@ public class IdHelper {
         Sequence.class);
     return sequence != null ? sequence.getSequenceValue() : 1;
   }
+
+  public Integer decrementSequenceId(String sequenceName) {
+    Sequence sequence = mongoTemplate.findAndModify(
+        query(where("_id").is(sequenceName)),
+        new Update().inc("sequenceValue", -1),
+        options().returnNew(true).upsert(true),
+        Sequence.class);
+    return sequence != null ? sequence.getSequenceValue() : 1;
+  }
 }

@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.Date;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -20,4 +22,7 @@ public class Outfit {
   private String name;
   private Integer qty;
   private String image;
+  private String updatedBy;
+  private Date updatedDate;
+  private Boolean isDeleted;
 }
