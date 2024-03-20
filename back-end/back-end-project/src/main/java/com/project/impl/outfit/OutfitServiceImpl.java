@@ -3,17 +3,23 @@ package com.project.impl.outfit;
 import com.project.helper.IdHelper;
 import com.project.model.Outfit;
 import com.project.model.OutfitCategory;
+import com.project.model.User;
 import com.project.model.request.OutfitRequest;
 import com.project.repository.OutfitCategoryRepository;
 import com.project.repository.OutfitRepository;
 import com.project.service.outift.OutfitService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+
+import static org.springframework.data.mongodb.core.query.Criteria.where;
 
 @Service
 @Slf4j
@@ -28,6 +34,9 @@ public class OutfitServiceImpl implements OutfitService {
   @Autowired
   private IdHelper idHelper;
 
+  @Autowired
+  private MongoTemplate mongoTemplate;
+
   @Override
   public Outfit saveOutfit(OutfitRequest outfitRequest) {
     Outfit outfit = new Outfit();
@@ -39,7 +48,7 @@ public class OutfitServiceImpl implements OutfitService {
     outfit.setUpdatedBy(outfitRequest.getUpdatedBy());
     outfit.setCreatedDate(new Date());
     outfit.setUpdatedDate(new Date());
-    outfit.setIsDeleted(false);
+    outfit.setIsDeleted(0);
     return outfitRepository.save(outfit);
   }
 
@@ -53,17 +62,25 @@ public class OutfitServiceImpl implements OutfitService {
 
   @Override
   public List<Outfit> findAll() {
-    return outfitRepository.findAll();
+    return outfitRepository.findByIsDeleted(0);
   }
 
   @Override
   public boolean deleteOutfit(Integer id) {
-    Outfit outfit = outfitRepository.findByIdAndIsDeletedFalse(id);
+    Outfit outfit = outfitRepository.findByIdAndIsDeleted(id, 0);
     if (Objects.isNull(outfit)) {
       return false;
     }
-    outfitRepository.delete(outfit);
+    this.deleteOutfitById(id);
     return true;
+  }
+
+  private void deleteOutfitById(Integer id){
+    Query query = new Query(
+        where("_id").is(id));
+    Update update = new Update().set("isDeleted", 1);
+
+    this.mongoTemplate.updateMulti(query, update, Outfit.class);
   }
 
 }

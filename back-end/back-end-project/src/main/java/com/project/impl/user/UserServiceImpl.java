@@ -47,25 +47,23 @@ public class UserServiceImpl implements UserService {
     user.setRoleId(userRequest.getRoleId());
     user.setName(userRequest.getName());
     user.setPhoneNumber(userRequest.getPhoneNumber());
-    if (!isAdmin(userRequest.getRoleId())) {
-      this.validateEmailAndPassword(userRequest.getEmail(), userRequest.getPassword());
-    }
+    this.validateEmailAndPassword(userRequest.getEmail(), userRequest.getPassword());
     user.setEmail(userRequest.getEmail());
     user.setPassword(this.encodePassword(userRequest.getPassword()));
     user.setCreatedDate(new Date());
-    user.setIsDeleted(false);
+    user.setIsDeleted(0);
     userRepository.save(user);
     return userHelper.convertUserToUserResponse(user);
   }
 
   @Override
   public List<User> findAll() {
-    return userRepository.findByIsDeletedFalse();
+    return userRepository.findByIsDeleted(0);
   }
 
   @Override
   public boolean deleteUser(Integer id) {
-    User user = userRepository.findByIdAndIsDeletedFalse(id);
+    User user = userRepository.findByIdAndIsDeleted(id, 0);
     if (Objects.isNull(user)) {
       return false;
     }
@@ -114,7 +112,7 @@ public class UserServiceImpl implements UserService {
   private void deleteUserById(Integer id){
     Query query = new Query(
         where("_id").is(id));
-    Update update = new Update().set("isDeleted", true);
+    Update update = new Update().set("isDeleted", 1);
 
     this.mongoTemplate.updateMulti(query, update, User.class);
   }

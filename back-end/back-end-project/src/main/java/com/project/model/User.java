@@ -24,5 +24,5 @@ public class User {
   private String email;
   private String password;
   private Date createdDate;
-  private Boolean isDeleted;
+  private Integer isDeleted;
 }
