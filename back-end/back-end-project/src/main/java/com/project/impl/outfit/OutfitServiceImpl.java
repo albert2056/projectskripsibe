@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -35,6 +36,10 @@ public class OutfitServiceImpl implements OutfitService {
     outfit.setName(outfitRequest.getName());
     outfit.setQty(outfitRequest.getQty());
     outfit.setImage(outfitRequest.getImage());
+    outfit.setUpdatedBy(outfitRequest.getUpdatedBy());
+    outfit.setCreatedDate(new Date());
+    outfit.setUpdatedDate(new Date());
+    outfit.setIsDeleted(false);
     return outfitRepository.save(outfit);
   }
 
@@ -53,7 +58,7 @@ public class OutfitServiceImpl implements OutfitService {
 
   @Override
   public boolean deleteOutfit(Integer id) {
-    Outfit outfit = outfitRepository.findById(id);
+    Outfit outfit = outfitRepository.findByIdAndIsDeletedFalse(id);
     if (Objects.isNull(outfit)) {
       return false;
     }

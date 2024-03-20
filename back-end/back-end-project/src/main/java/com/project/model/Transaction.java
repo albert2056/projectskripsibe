@@ -21,12 +21,15 @@ public class Transaction {
   private Integer outfitId;
   private Integer eventId;
   private Integer userId;
+  private Integer packageId;
   private String name;
   private Integer totalUsher;
   private Date eventDate;
   private String venue;
   private String wo;
   private Integer totalPrice;
+  private String paymentStatus;
+  private Date createdDate;
   private String updatedBy;
   private Date updatedDate;
   private Boolean isDeleted;

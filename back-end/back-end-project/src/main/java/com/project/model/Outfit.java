@@ -24,5 +24,6 @@ public class Outfit {
   private String image;
   private String updatedBy;
   private Date updatedDate;
+  private Date createdDate;
   private Boolean isDeleted;
 }

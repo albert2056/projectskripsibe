@@ -14,4 +14,5 @@ public class OutfitRequest {
   private String name;
   private Integer qty;
   private String image;
+  private String updatedBy;
 }
