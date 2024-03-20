@@ -102,4 +102,36 @@ public class UserControllerCrudIntegrationTest extends BaseIntegrationTest{
     assertEquals(ErrorMessage.PASSWORD_NUMBER, userResponse.getDescription());
   }
 
+  @Negative
+  @Test
+  public void createUser_passwordLengthLessThan8_shouldReturnErrorResponse() throws Exception {
+    userRequest.setPassword("albert");
+
+    MvcResult result = mockMvc.perform(
+        post(ProjectPath.USER + ProjectPath.CREATE).accept(MediaType.APPLICATION_JSON_VALUE)
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(new ObjectMapper().writeValueAsString(userRequest))).andReturn();
+    UserResponse userResponse = getContent(result, new TypeReference<UserResponse>() {
+    });
+
+    assertEquals(401, userResponse.getStatusCode());
+    assertEquals(ErrorMessage.PASSWORD_LENGTH, userResponse.getDescription());
+  }
+
+  @Negative
+  @Test
+  public void createUser_invalidEmailFormat_shouldReturnErrorResponse() throws Exception {
+    userRequest.setEmail("albert");
+
+    MvcResult result = mockMvc.perform(
+        post(ProjectPath.USER + ProjectPath.CREATE).accept(MediaType.APPLICATION_JSON_VALUE)
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(new ObjectMapper().writeValueAsString(userRequest))).andReturn();
+    UserResponse userResponse = getContent(result, new TypeReference<UserResponse>() {
+    });
+
+    assertEquals(401, userResponse.getStatusCode());
+    assertEquals(ErrorMessage.EMAIL, userResponse.getDescription());
+  }
+
 }
