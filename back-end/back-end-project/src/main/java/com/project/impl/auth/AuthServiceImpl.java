@@ -1,5 +1,6 @@
 package com.project.impl.auth;
 
+import com.project.helper.ErrorMessage;
 import com.project.helper.PasswordEncoder;
 import com.project.helper.UserHelper;
 import com.project.model.User;
@@ -28,15 +29,15 @@ public class AuthServiceImpl implements AuthService {
   public UserResponse login(String email, String password) throws Exception {
     User user = this.getUser(email);
     if (!authenticateUser(user, email, password)) {
-      throw new Exception("Log in failed! Email and Password does not match!");
+      throw new Exception(ErrorMessage.LOGIN_NOT_MATCH);
     }
     return this.userHelper.convertUserToUserResponse(user);
   }
 
   private User getUser(String email) throws Exception {
-    User user = userRepository.findByEmailAndIsDeleted(email, 0);
+    User user = userRepository.findFirstByEmailAndIsDeleted(email, 0);
     if (Objects.isNull(user)) {
-      throw new Exception(String.format("Log in failed! User with email: %s not found!", email));
+      throw new Exception(ErrorMessage.USER_NOT_FOUND);
     }
     return user;
   }

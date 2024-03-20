@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class UserResponse {
+  private Integer id;
   private String role;
   private String name;
   private String phoneNumber;

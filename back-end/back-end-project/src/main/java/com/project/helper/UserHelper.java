@@ -17,6 +17,7 @@ public class UserHelper {
 
   public UserResponse convertUserToUserResponse(User user) {
     UserResponse userResponse = new UserResponse();
+    userResponse.setId(user.getId());
     userResponse.setRole(this.getRole(user.getRoleId()));
     userResponse.setName(user.getName());
     userResponse.setPhoneNumber(user.getPhoneNumber());

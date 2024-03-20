@@ -1,5 +1,6 @@
 package com.project.impl.user;
 
+import com.project.helper.ErrorMessage;
 import com.project.helper.IdHelper;
 import com.project.helper.PasswordEncoder;
 import com.project.helper.UserHelper;
@@ -75,16 +76,12 @@ public class UserServiceImpl implements UserService {
     return this.passwordEncoder.encode(password);
   }
 
-  private Boolean isAdmin(Integer roleId) {
-    return roleId == 1;
-  }
-
   private void validateEmailAndPassword(String email, String password) throws Exception {
     if (!validateEmail(email)) {
-      throw new Exception("Register failed! Email must contain '@'");
+      throw new Exception(ErrorMessage.EMAIL);
     }
     if (!validatePassword(password)) {
-      throw new Exception("Register failed! Password length must be 8 or more");
+      throw new Exception(ErrorMessage.PASSWORD_LENGTH);
     }
   }
 
@@ -98,13 +95,13 @@ public class UserServiceImpl implements UserService {
 
   private Boolean validateLetterAndNumber(String password) throws Exception {
     if (!password.matches(".*[A-Z].*")) {
-      throw new Exception("Register failed! Password must have at least one uppercase letter.");
+      throw new Exception(ErrorMessage.PASSWORD_UPPERCASE);
     }
     if (!password.matches(".*[a-z].*")) {
-      throw new Exception("Register failed! Password must have at least one lowercase letter.");
+      throw new Exception(ErrorMessage.PASSWORD_LOWERCASE);
     }
     if (!password.matches(".*\\d.*")) {
-      throw new Exception("Register failed! Password must have at least one numeric digit.");
+      throw new Exception(ErrorMessage.PASSWORD_NUMBER);
     }
     return true;
   }

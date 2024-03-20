@@ -36,7 +36,7 @@ public class UserCrudController {
       return userService.saveUser(userRequest);
     } catch (Exception e) {
       this.idHelper.decrementSequenceId(User.COLLECTION_NAME);
-      return new UserResponse(null, null, null, null, null, 401, e.getMessage());
+      return new UserResponse(null, null, null, null, null, null, 401, e.getMessage());
     }
   }
 

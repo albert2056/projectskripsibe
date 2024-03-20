@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface UserRepository extends MongoRepository<User, String> {
   User findByIdAndIsDeleted(Integer id, Integer isDeleted);
-  User findByEmailAndIsDeleted(String email, Integer isDeleted);
+  User findFirstByEmailAndIsDeleted(String email, int isDeleted);
   List<User> findByIsDeleted(Integer isDeleted);
 }

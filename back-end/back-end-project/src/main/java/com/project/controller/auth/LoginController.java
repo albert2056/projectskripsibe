@@ -28,7 +28,7 @@ public class LoginController {
       UserResponse userResponse = this.authService.login(email, password);
       return userResponse;
     } catch (Exception e) {
-      return new UserResponse(null, null, null, null, null, 401, e.getMessage());
+      return new UserResponse(null, null, null, null, null, null, 401, e.getMessage());
     }
   }
 }
