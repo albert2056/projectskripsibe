@@ -18,8 +18,11 @@ import org.springframework.http.MediaType;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import org.springframework.test.web.servlet.MvcResult;
+
+import java.util.List;
 
 public class UserControllerCrudIntegrationTest extends BaseIntegrationTest{
 
@@ -40,7 +43,7 @@ public class UserControllerCrudIntegrationTest extends BaseIntegrationTest{
 
   @Positive
   @Test
-  public void createUser_success_shouldReturnResponse() throws Exception {
+  public void createUser_shouldReturnResponse() throws Exception {
     MvcResult result = mockMvc.perform(
         post(ProjectPath.USER + ProjectPath.CREATE).accept(MediaType.APPLICATION_JSON_VALUE)
             .contentType(MediaType.APPLICATION_JSON)
@@ -132,6 +135,29 @@ public class UserControllerCrudIntegrationTest extends BaseIntegrationTest{
 
     assertEquals(401, userResponse.getStatusCode());
     assertEquals(ErrorMessage.EMAIL, userResponse.getDescription());
+  }
+
+  @Positive
+  @Test
+  public void findUser_shouldReturnResponse() throws Exception {
+    User user = new User();
+    user.setId(1);
+    user.setRoleId(userRequest.getRoleId());
+    user.setEmail(userRequest.getEmail());
+    user.setName(userRequest.getName());
+    user.setPassword(userRequest.getPassword());
+    user.setPhoneNumber(userRequest.getPhoneNumber());
+    user.setIsDeleted(0);
+    userRepository.save(user);
+
+    MvcResult result = mockMvc.perform(
+        get(ProjectPath.USER + ProjectPath.FIND_ALL).accept(MediaType.APPLICATION_JSON_VALUE)
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(new ObjectMapper().writeValueAsString(userRequest))).andReturn();
+    List<UserResponse> userResponse = getContent(result, new TypeReference<List<UserResponse>>() {
+    });
+
+    assertNotNull(userResponse);
   }
 
 }
