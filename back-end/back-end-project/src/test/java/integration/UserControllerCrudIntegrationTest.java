@@ -31,13 +31,16 @@ public class UserControllerCrudIntegrationTest extends BaseIntegrationTest{
   @BeforeEach
   public void setUp() {
     userRequest = new UserRequest();
+    userRequest.setRoleId(1);
+    userRequest.setName("name");
+    userRequest.setPhoneNumber("12345678");
+    userRequest.setEmail("albert@gmail.com");
+    userRequest.setPassword("Albert1234");
   }
 
   @Positive
   @Test
   public void createUser_success_shouldReturnResponse() throws Exception {
-    userRequest = this.setUserRequest();
-
     MvcResult result = mockMvc.perform(
         post(ProjectPath.USER + ProjectPath.CREATE).accept(MediaType.APPLICATION_JSON_VALUE)
             .contentType(MediaType.APPLICATION_JSON)
@@ -54,7 +57,6 @@ public class UserControllerCrudIntegrationTest extends BaseIntegrationTest{
   @Negative
   @Test
   public void createUser_passwordNotContainUpperCase_shouldReturnErrorResponse() throws Exception {
-    userRequest = this.setUserRequest();
     userRequest.setPassword("albert1234");
 
     MvcResult result = mockMvc.perform(
@@ -71,7 +73,6 @@ public class UserControllerCrudIntegrationTest extends BaseIntegrationTest{
   @Negative
   @Test
   public void createUser_passwordNotContainLowerCase_shouldReturnErrorResponse() throws Exception {
-    userRequest = this.setUserRequest();
     userRequest.setPassword("ALBERT1234");
 
     MvcResult result = mockMvc.perform(
@@ -88,7 +89,6 @@ public class UserControllerCrudIntegrationTest extends BaseIntegrationTest{
   @Negative
   @Test
   public void createUser_passwordNotContainNumericDigit_shouldReturnErrorResponse() throws Exception {
-    userRequest = this.setUserRequest();
     userRequest.setPassword("albertALBERT");
 
     MvcResult result = mockMvc.perform(
@@ -102,13 +102,4 @@ public class UserControllerCrudIntegrationTest extends BaseIntegrationTest{
     assertEquals(ErrorMessage.PASSWORD_NUMBER, userResponse.getDescription());
   }
 
-  private UserRequest setUserRequest(){
-    UserRequest request = new UserRequest();
-    request.setRoleId(1);
-    request.setName("name");
-    request.setPhoneNumber("12345678");
-    request.setEmail("albert@gmail.com");
-    request.setPassword("Albert1234");
-    return request;
-  }
 }
