@@ -46,6 +46,7 @@ public class UserServiceImpl implements UserService {
     User user = new User();
     user.setId(idHelper.getNextSequenceId(User.COLLECTION_NAME));
     user.setRoleId(userRequest.getRoleId());
+    this.validateNameAndPhoneNumber(userRequest.getName(), userRequest.getPhoneNumber());
     user.setName(userRequest.getName());
     user.setPhoneNumber(userRequest.getPhoneNumber());
     this.validateEmailAndPassword(userRequest.getEmail(), userRequest.getPassword());
@@ -76,6 +77,13 @@ public class UserServiceImpl implements UserService {
     return this.passwordEncoder.encode(password);
   }
 
+  private void validateNameAndPhoneNumber(String name, String phoneNumber) throws Exception {
+    if (name == null || name.isBlank()) {
+      throw new Exception(ErrorMessage.NAME);
+    }
+    this.validatePhoneNumber(phoneNumber);
+  }
+
   private void validateEmailAndPassword(String email, String password) throws Exception {
     if (!validateEmail(email)) {
       throw new Exception(ErrorMessage.EMAIL);
@@ -104,6 +112,15 @@ public class UserServiceImpl implements UserService {
       throw new Exception(ErrorMessage.PASSWORD_NUMBER);
     }
     return true;
+  }
+
+  private void validatePhoneNumber(String phoneNumber) throws Exception {
+    if (phoneNumber.length()<10) {
+      throw new Exception(ErrorMessage.PHONENUM_LENGTH);
+    }
+    if (!phoneNumber.matches("\\d+")) {
+      throw new Exception(ErrorMessage.PHONENUM_NUMBER);
+    }
   }
 
   private void deleteUserById(Integer id){

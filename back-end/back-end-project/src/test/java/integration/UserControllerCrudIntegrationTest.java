@@ -36,7 +36,7 @@ public class UserControllerCrudIntegrationTest extends BaseIntegrationTest{
     userRequest = new UserRequest();
     userRequest.setRoleId(1);
     userRequest.setName("name");
-    userRequest.setPhoneNumber("12345678");
+    userRequest.setPhoneNumber("1234567890");
     userRequest.setEmail("albert@gmail.com");
     userRequest.setPassword("Albert1234");
   }
@@ -135,6 +135,54 @@ public class UserControllerCrudIntegrationTest extends BaseIntegrationTest{
 
     assertEquals(401, userResponse.getStatusCode());
     assertEquals(ErrorMessage.EMAIL, userResponse.getDescription());
+  }
+
+  @Negative
+  @Test
+  public void createUser_nullName_shouldReturnErrorResponse() throws Exception {
+    userRequest.setName(null);
+
+    MvcResult result = mockMvc.perform(
+        post(ProjectPath.USER + ProjectPath.CREATE).accept(MediaType.APPLICATION_JSON_VALUE)
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(new ObjectMapper().writeValueAsString(userRequest))).andReturn();
+    UserResponse userResponse = getContent(result, new TypeReference<UserResponse>() {
+    });
+
+    assertEquals(401, userResponse.getStatusCode());
+    assertEquals(ErrorMessage.NAME, userResponse.getDescription());
+  }
+
+  @Negative
+  @Test
+  public void createUser_phoneNumberLengthLessThan10_shouldReturnErrorResponse() throws Exception {
+    userRequest.setPhoneNumber("123");
+
+    MvcResult result = mockMvc.perform(
+        post(ProjectPath.USER + ProjectPath.CREATE).accept(MediaType.APPLICATION_JSON_VALUE)
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(new ObjectMapper().writeValueAsString(userRequest))).andReturn();
+    UserResponse userResponse = getContent(result, new TypeReference<UserResponse>() {
+    });
+
+    assertEquals(401, userResponse.getStatusCode());
+    assertEquals(ErrorMessage.PHONENUM_LENGTH, userResponse.getDescription());
+  }
+
+  @Negative
+  @Test
+  public void createUser_phoneNumberContainsNonNumericDigit_shouldReturnErrorResponse() throws Exception {
+    userRequest.setPhoneNumber("1234567890ab");
+
+    MvcResult result = mockMvc.perform(
+        post(ProjectPath.USER + ProjectPath.CREATE).accept(MediaType.APPLICATION_JSON_VALUE)
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(new ObjectMapper().writeValueAsString(userRequest))).andReturn();
+    UserResponse userResponse = getContent(result, new TypeReference<UserResponse>() {
+    });
+
+    assertEquals(401, userResponse.getStatusCode());
+    assertEquals(ErrorMessage.PHONENUM_NUMBER, userResponse.getDescription());
   }
 
   @Positive
