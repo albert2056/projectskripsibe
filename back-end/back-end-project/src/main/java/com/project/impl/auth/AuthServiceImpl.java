@@ -21,8 +21,6 @@ public class AuthServiceImpl implements AuthService {
   @Autowired
   private UserRepository userRepository;
   @Autowired
-  private PasswordEncoder passwordEncoder;
-  @Autowired
   private UserHelper userHelper;
 
   @Override
@@ -43,9 +41,6 @@ public class AuthServiceImpl implements AuthService {
   }
 
   private boolean authenticateUser(User user, String email, String password) {
-    if (StringUtils.isNotBlank(email)) {
-      return user.getPassword().equals(this.passwordEncoder.encode(password));
-    }
-    return false;
+    return user.getPassword().equals(this.userHelper.encodePassword(password));
   }
 }

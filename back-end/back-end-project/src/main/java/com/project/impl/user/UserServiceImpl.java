@@ -36,9 +36,6 @@ public class UserServiceImpl implements UserService {
   private UserHelper userHelper;
 
   @Autowired
-  private PasswordEncoder passwordEncoder;
-
-  @Autowired
   private MongoTemplate mongoTemplate;
 
   @Override
@@ -51,7 +48,7 @@ public class UserServiceImpl implements UserService {
     user.setPhoneNumber(userRequest.getPhoneNumber());
     this.validateEmailAndPassword(userRequest.getEmail(), userRequest.getPassword());
     user.setEmail(userRequest.getEmail());
-    user.setPassword(this.encodePassword(userRequest.getPassword()));
+    user.setPassword(this.userHelper.encodePassword(userRequest.getPassword()));
     user.setCreatedDate(new Date());
     user.setIsDeleted(0);
     userRepository.save(user);
@@ -71,10 +68,6 @@ public class UserServiceImpl implements UserService {
     }
     this.deleteUserById(id);
     return true;
-  }
-
-  private String encodePassword(String password) {
-    return this.passwordEncoder.encode(password);
   }
 
   private void validateNameAndPhoneNumber(String name, String phoneNumber) throws Exception {

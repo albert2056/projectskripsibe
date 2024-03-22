@@ -15,6 +15,9 @@ public class UserHelper {
   @Autowired
   private RolesRepository rolesRepository;
 
+  @Autowired
+  private PasswordEncoder passwordEncoder;
+
   public UserResponse convertUserToUserResponse(User user) {
     UserResponse userResponse = new UserResponse();
     userResponse.setId(user.getId());
@@ -34,6 +37,10 @@ public class UserHelper {
       userResponses.add(this.convertUserToUserResponse(user));
     }
     return userResponses;
+  }
+
+  public String encodePassword(String password) {
+    return this.passwordEncoder.encode(password);
   }
 
   private String getRole(Integer roleId) {
