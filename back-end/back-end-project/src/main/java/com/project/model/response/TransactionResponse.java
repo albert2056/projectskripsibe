@@ -1,12 +1,10 @@
-package com.project.model;
+package com.project.model.response;
 
 import com.mongodb.lang.Nullable;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Date;
 
@@ -14,24 +12,37 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Document(collection = Transaction.COLLECTION_NAME)
-public class Transaction {
-  public static final String COLLECTION_NAME = "transaction";
-  @Id
+public class TransactionResponse {
+  @Nullable
   private Integer id;
+  @Nullable
   private Integer outfitId;
+  @Nullable
   private Integer eventId;
+  @Nullable
   private Integer userId;
+  @Nullable
   private Integer packageId;
+  @Nullable
   private String name;
+  @Nullable
   private Integer totalUsher;
+  @Nullable
   private Date eventDate;
+  @Nullable
   private String venue;
+  @Nullable
   private String wo;
+  @Nullable
   private Integer totalPrice;
+  @Nullable
   private String paymentStatus;
+  @Nullable
   private Date createdDate;
+  @Nullable
   private String updatedBy;
+  @Nullable
   private Date updatedDate;
-  private Boolean isDeleted;
+  private Integer statusCode;
+  private String description;
 }

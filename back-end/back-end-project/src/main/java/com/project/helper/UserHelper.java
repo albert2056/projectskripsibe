@@ -31,6 +31,13 @@ public class UserHelper {
     return userResponse;
   }
 
+  public UserResponse convertToErrorUserResponse(Integer code, String description) {
+    UserResponse userResponse = new UserResponse();
+    userResponse.setStatusCode(code);
+    userResponse.setDescription(description);
+    return userResponse;
+  }
+
   public List<UserResponse> convertUserToUserResponses(List<User> users) {
     List<UserResponse> userResponses = new ArrayList<>();
     for (User user : users) {

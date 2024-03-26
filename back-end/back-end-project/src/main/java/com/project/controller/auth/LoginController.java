@@ -1,6 +1,7 @@
 package com.project.controller.auth;
 
 import com.project.controller.path.ProjectPath;
+import com.project.helper.UserHelper;
 import com.project.model.response.UserResponse;
 import com.project.service.auth.AuthService;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -22,13 +23,16 @@ public class LoginController {
   @Autowired
   private AuthService authService;
 
+  @Autowired
+  private UserHelper userHelper;
+
   @PostMapping
   public UserResponse login(@RequestParam String email, @RequestParam String password) throws Exception {
     try {
       UserResponse userResponse = this.authService.login(email, password);
       return userResponse;
     } catch (Exception e) {
-      return new UserResponse(null, null, null, null, null, null, 401, e.getMessage());
+      return this.userHelper.convertToErrorUserResponse(401, e.getMessage());
     }
   }
 }

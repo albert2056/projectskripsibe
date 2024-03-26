@@ -2,6 +2,7 @@ package com.project.controller.auth;
 
 import com.project.controller.path.ProjectPath;
 import com.project.helper.IdHelper;
+import com.project.helper.UserHelper;
 import com.project.model.User;
 import com.project.model.request.UserRequest;
 import com.project.model.response.UserResponse;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "RegisterController", description = "Register Service API")
 public class RegisterController {
   private final UserService userService;
+  private final UserHelper userHelper;
   private final IdHelper idHelper;
 
   @PostMapping
@@ -29,7 +31,7 @@ public class RegisterController {
       return userService.register(userRequest);
     } catch (Exception e) {
       this.idHelper.decrementSequenceId(User.COLLECTION_NAME);
-      return new UserResponse(null, null, null, null, null, null, 401, e.getMessage());
+      return this.userHelper.convertToErrorUserResponse(401, e.getMessage());
     }
   }
 }
