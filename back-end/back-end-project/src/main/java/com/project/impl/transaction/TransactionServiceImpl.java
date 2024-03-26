@@ -21,7 +21,7 @@ public class TransactionServiceImpl implements TransactionService {
   }
 
   private void validateBookRequest(BookRequest bookRequest) throws Exception {
-    this.validateFields(bookRequest);
+    this.validateNameAndVenue(bookRequest);
     this.validateTotalUsher(bookRequest.getTotalUsher());
     this.validateEventDate(bookRequest.getEventDate());
   }
@@ -43,7 +43,7 @@ public class TransactionServiceImpl implements TransactionService {
     }
   }
 
-  private void validateFields(BookRequest bookRequest) throws Exception {
+  private void validateNameAndVenue(BookRequest bookRequest) throws Exception {
     if (StringUtils.isEmpty(bookRequest.getName())) {
       throw new Exception(ErrorMessage.NAME_EMPTY);
     }
@@ -53,7 +53,7 @@ public class TransactionServiceImpl implements TransactionService {
     }
   }
 
-  private TransactionResponse constructResponse(BookRequest bookRequest) throws Exception {
+  private TransactionResponse constructResponse(BookRequest bookRequest) {
     TransactionResponse transactionResponse = new TransactionResponse();
     transactionResponse.setName(bookRequest.getName());
     transactionResponse.setTotalUsher(bookRequest.getTotalUsher());
