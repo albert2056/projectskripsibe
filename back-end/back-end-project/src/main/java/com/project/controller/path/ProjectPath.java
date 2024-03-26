@@ -10,8 +10,9 @@ public class ProjectPath {
   public static final String CREATE = "/create";
   public static final String CATEGORY = "/category";
   public static final String FIND_ALL = "/findAll";
+  public static final String DELETE = "/delete";
+  public static final String BOOK = "/book";
   public static final String VIEW = "/view";
   public static final String GAUN = "/gaun";
   public static final String BATIK = "/batik";
-  public static final String DELETE = "/delete";
 }

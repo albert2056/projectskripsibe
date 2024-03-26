@@ -5,9 +5,13 @@ import com.project.model.request.BookRequest;
 import com.project.model.response.TransactionResponse;
 import com.project.service.transaction.TransactionService;
 import io.micrometer.common.util.StringUtils;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
 
 import java.util.Date;
 
+@Service
+@Slf4j
 public class TransactionServiceImpl implements TransactionService {
 
   @Override
@@ -40,11 +44,11 @@ public class TransactionServiceImpl implements TransactionService {
   }
 
   private void validateFields(BookRequest bookRequest) throws Exception {
-    if (StringUtils.isNotEmpty(bookRequest.getName())) {
+    if (StringUtils.isEmpty(bookRequest.getName())) {
       throw new Exception(ErrorMessage.NAME_EMPTY);
     }
 
-    if (StringUtils.isNotEmpty(bookRequest.getVenue())) {
+    if (StringUtils.isEmpty(bookRequest.getVenue())) {
       throw new Exception(ErrorMessage.VENUE_EMPTY);
     }
   }

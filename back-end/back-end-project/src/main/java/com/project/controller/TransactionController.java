@@ -23,7 +23,7 @@ public class TransactionController {
   private final TransactionService transactionService;
   private final TransactionHelper transactionHelper;
 
-  @PostMapping
+  @PostMapping(ProjectPath.BOOK)
   public TransactionResponse book(@RequestBody BookRequest bookRequest) throws Exception {
     try {
       return this.transactionService.book(bookRequest);
