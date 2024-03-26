@@ -7,7 +7,7 @@ import com.project.model.response.UserResponse;
 import java.util.List;
 
 public interface UserService {
-  UserResponse saveUser(UserRequest userRequest) throws Exception;
+  UserResponse register(UserRequest userRequest) throws Exception;
   List<User> findAll();
   boolean deleteUser(Integer id);
 }

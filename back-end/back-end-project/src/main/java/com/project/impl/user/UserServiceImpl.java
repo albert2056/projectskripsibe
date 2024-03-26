@@ -39,7 +39,7 @@ public class UserServiceImpl implements UserService {
   private MongoTemplate mongoTemplate;
 
   @Override
-  public UserResponse saveUser(UserRequest userRequest) throws Exception {
+  public UserResponse register(UserRequest userRequest) throws Exception {
     User user = new User();
     user.setId(idHelper.getNextSequenceId(User.COLLECTION_NAME));
     user.setRoleId(userRequest.getRoleId());
