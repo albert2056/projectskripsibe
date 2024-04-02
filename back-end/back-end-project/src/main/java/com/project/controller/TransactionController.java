@@ -31,4 +31,13 @@ public class TransactionController {
       return this.transactionHelper.convertToErrorTransactionResponse(401, e.getMessage());
     }
   }
+
+  @PostMapping(ProjectPath.INVOICE)
+  public TransactionResponse getInvoice(@RequestBody BookRequest bookRequest) throws Exception {
+    try {
+      return this.transactionService.book(bookRequest);
+    } catch (Exception e) {
+      return this.transactionHelper.convertToErrorTransactionResponse(401, e.getMessage());
+    }
+  }
 }
