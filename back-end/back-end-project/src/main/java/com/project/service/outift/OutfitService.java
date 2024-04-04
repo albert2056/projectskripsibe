@@ -10,5 +10,6 @@ public interface OutfitService {
   Outfit saveOutfit(OutfitRequest outfitRequest);
   OutfitCategory saveOutfitCategory(String name);
   List<Outfit> findAll();
+  List<Outfit> findByOutfitCategoryId(Integer outfitCategoryId);
   boolean deleteOutfit(Integer id);
 }

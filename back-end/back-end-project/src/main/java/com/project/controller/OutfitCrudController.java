@@ -1,6 +1,7 @@
 package com.project.controller;
 
 import com.project.controller.path.ProjectPath;
+import com.project.helper.OutfitHelper;
 import com.project.model.Outfit;
 import com.project.model.OutfitCategory;
 import com.project.model.request.OutfitRequest;
@@ -26,6 +27,7 @@ import java.util.List;
 public class OutfitCrudController {
 
   private final OutfitService outfitService;
+  private final OutfitHelper outfitHelper;
 
   @PostMapping(ProjectPath.CREATE)
   public Outfit saveOutfit(@RequestBody OutfitRequest outfitRequest) throws Exception {
@@ -40,6 +42,11 @@ public class OutfitCrudController {
   @GetMapping(ProjectPath.FIND_ALL)
   public List<Outfit> getOutfit() throws Exception {
     return outfitService.findAll();
+  }
+
+  @GetMapping(ProjectPath.FIND_BY_OUTFIT_CATEGORY_ID)
+  public List<Outfit> findOutfitByOutfitCategoryId(@RequestParam Integer outfitCategoryId) throws Exception {
+    return outfitService.findByOutfitCategoryId(outfitCategoryId);
   }
 
   @DeleteMapping(ProjectPath.DELETE)

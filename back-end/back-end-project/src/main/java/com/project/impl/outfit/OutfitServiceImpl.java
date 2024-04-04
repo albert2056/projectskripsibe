@@ -66,6 +66,11 @@ public class OutfitServiceImpl implements OutfitService {
   }
 
   @Override
+  public List<Outfit> findByOutfitCategoryId(Integer outfitCategoryId) {
+    return outfitRepository.findByOutfitCategoryIdAndIsDeleted(outfitCategoryId, 0);
+  }
+
+  @Override
   public boolean deleteOutfit(Integer id) {
     Outfit outfit = outfitRepository.findByIdAndIsDeleted(id, 0);
     if (Objects.isNull(outfit)) {

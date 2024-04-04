@@ -8,4 +8,5 @@ import java.util.List;
 public interface OutfitRepository extends MongoRepository<Outfit, String> {
   Outfit findByIdAndIsDeleted(Integer id, Integer isDeleted);
   List<Outfit> findByIsDeleted(Integer isDeleted);
+  List<Outfit> findByOutfitCategoryIdAndIsDeleted(Integer outfitCategoryId, Integer isDeleted);
 }
