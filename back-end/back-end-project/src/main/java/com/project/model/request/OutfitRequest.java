@@ -17,6 +17,4 @@ public class OutfitRequest {
   private Integer qty;
   private String image;
   private Integer updatedBy;
-  private Date updatedDate;
-  private Date createdDate;
 }
