@@ -22,7 +22,7 @@ public class Outfit {
   private String name;
   private Integer qty;
   private String image;
-  private String updatedBy;
+  private Integer updatedBy;
   private Date updatedDate;
   private Date createdDate;
   private Integer isDeleted;

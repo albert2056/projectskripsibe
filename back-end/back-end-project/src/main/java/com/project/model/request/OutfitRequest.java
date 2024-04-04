@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
+
 @Data
 @Builder
 @NoArgsConstructor
@@ -14,5 +16,7 @@ public class OutfitRequest {
   private String name;
   private Integer qty;
   private String image;
-  private String updatedBy;
+  private Integer updatedBy;
+  private Date updatedDate;
+  private Date createdDate;
 }
