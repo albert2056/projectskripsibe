@@ -38,7 +38,8 @@ public class OutfitServiceImpl implements OutfitService {
   private MongoTemplate mongoTemplate;
 
   @Override
-  public Outfit saveOutfit(OutfitRequest outfitRequest) {
+  public Outfit saveOutfit(OutfitRequest outfitRequest) throws Exception {
+    this.validateFields(outfitRequest);
     Outfit outfit = new Outfit();
     outfit.setId(idHelper.getNextSequenceId(Outfit.COLLECTION_NAME));
     outfit.setOutfitCategoryId(outfitRequest.getOutfitCategoryId());
@@ -88,4 +89,10 @@ public class OutfitServiceImpl implements OutfitService {
     this.mongoTemplate.updateMulti(query, update, Outfit.class);
   }
 
+  private void validateFields(OutfitRequest outfitRequest) throws Exception {
+    if (outfitRequest.getOutfitCategoryId() == null || outfitRequest.getName() == null ||
+        outfitRequest.getQty() == null || outfitRequest.getImage() == null) {
+      throw new Exception("Outfit request fields cannot be null");
+    }
+  }
 }

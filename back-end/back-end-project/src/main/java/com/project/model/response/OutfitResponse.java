@@ -1,7 +1,16 @@
 package com.project.model.response;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.util.Date;
 
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class OutfitResponse {
   private Integer id;
   private Integer outfitCategoryId;

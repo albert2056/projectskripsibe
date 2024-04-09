@@ -2,9 +2,9 @@ package com.project.controller;
 
 import com.project.controller.path.ProjectPath;
 import com.project.helper.OutfitHelper;
-import com.project.model.Outfit;
 import com.project.model.OutfitCategory;
 import com.project.model.request.OutfitRequest;
+import com.project.model.response.OutfitResponse;
 import com.project.service.outift.OutfitService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -30,8 +30,13 @@ public class OutfitCrudController {
   private final OutfitHelper outfitHelper;
 
   @PostMapping(ProjectPath.CREATE)
-  public Outfit saveOutfit(@RequestBody OutfitRequest outfitRequest) throws Exception {
-    return outfitService.saveOutfit(outfitRequest);
+  public OutfitResponse saveOutfit(@RequestBody OutfitRequest outfitRequest) throws Exception {
+    try {
+      return outfitHelper.convertToOutfitResponse(outfitService.saveOutfit(outfitRequest));
+    } catch (Exception e) {
+      return this.outfitHelper.convertToErrorOutfitResponse(401, e.getMessage());
+    }
+
   }
 
   @PostMapping(ProjectPath.CATEGORY + ProjectPath.CREATE)
@@ -40,13 +45,13 @@ public class OutfitCrudController {
   }
 
   @GetMapping(ProjectPath.FIND_ALL)
-  public List<Outfit> getOutfit() throws Exception {
-    return outfitService.findAll();
+  public List<OutfitResponse> getOutfit() throws Exception {
+    return outfitHelper.convertToListOutfitResponse(outfitService.findAll());
   }
 
   @GetMapping(ProjectPath.FIND_BY_OUTFIT_CATEGORY_ID)
-  public List<Outfit> findOutfitByOutfitCategoryId(@RequestParam Integer outfitCategoryId) throws Exception {
-    return outfitService.findByOutfitCategoryId(outfitCategoryId);
+  public List<OutfitResponse> findOutfitByOutfitCategoryId(@RequestParam Integer outfitCategoryId) throws Exception {
+    return outfitHelper.convertToListOutfitResponse(outfitService.findByOutfitCategoryId(outfitCategoryId));
   }
 
   @DeleteMapping(ProjectPath.DELETE)

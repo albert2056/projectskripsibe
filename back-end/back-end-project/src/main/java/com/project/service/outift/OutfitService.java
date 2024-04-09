@@ -7,7 +7,7 @@ import com.project.model.request.OutfitRequest;
 import java.util.List;
 
 public interface OutfitService {
-  Outfit saveOutfit(OutfitRequest outfitRequest);
+  Outfit saveOutfit(OutfitRequest outfitRequest) throws Exception;
   OutfitCategory saveOutfitCategory(String name);
   List<Outfit> findAll();
   List<Outfit> findByOutfitCategoryId(Integer outfitCategoryId);
