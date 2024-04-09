@@ -2,7 +2,9 @@ package com.project.controller;
 
 import com.project.controller.path.ProjectPath;
 import com.project.helper.TransactionHelper;
+import com.project.model.Transaction;
 import com.project.model.request.BookRequest;
+import com.project.model.request.TransactionRequest;
 import com.project.model.response.TransactionResponse;
 import com.project.service.transaction.TransactionService;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -33,11 +35,7 @@ public class TransactionController {
   }
 
   @PostMapping(ProjectPath.INVOICE)
-  public TransactionResponse getInvoice(@RequestBody BookRequest bookRequest) throws Exception {
-    try {
-      return this.transactionService.book(bookRequest);
-    } catch (Exception e) {
-      return this.transactionHelper.convertToErrorTransactionResponse(401, e.getMessage());
-    }
+  public Transaction getInvoice(@RequestBody TransactionRequest transactionRequest) throws Exception {
+    return this.transactionService.getInvoice(transactionRequest);
   }
 }

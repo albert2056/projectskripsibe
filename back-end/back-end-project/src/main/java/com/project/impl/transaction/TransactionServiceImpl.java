@@ -1,11 +1,17 @@
 package com.project.impl.transaction;
 
 import com.project.helper.ErrorMessage;
+import com.project.helper.IdHelper;
+import com.project.model.Outfit;
+import com.project.model.Transaction;
 import com.project.model.request.BookRequest;
+import com.project.model.request.TransactionRequest;
 import com.project.model.response.TransactionResponse;
+import com.project.repository.TransactionRepository;
 import com.project.service.transaction.TransactionService;
 import io.micrometer.common.util.StringUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -14,10 +20,21 @@ import java.util.Date;
 @Slf4j
 public class TransactionServiceImpl implements TransactionService {
 
+  @Autowired
+  private TransactionRepository transactionRepository;
+
+  @Autowired
+  private IdHelper idHelper;
+
   @Override
   public TransactionResponse book(BookRequest bookRequest) throws Exception {
     this.validateBookRequest(bookRequest);
     return this.constructResponse(bookRequest);
+  }
+
+  @Override
+  public Transaction getInvoice(TransactionRequest transactionRequest) throws Exception {
+    return this.constructTransaction(transactionRequest);
   }
 
   private void validateBookRequest(BookRequest bookRequest) throws Exception {
@@ -63,5 +80,28 @@ public class TransactionServiceImpl implements TransactionService {
       transactionResponse.setWo(bookRequest.getWo());
     }
     return transactionResponse;
+  }
+
+  private Transaction constructTransaction(TransactionRequest transactionRequest) {
+    Transaction transaction = new Transaction();
+    transaction.setId(idHelper.getNextSequenceId(Transaction.COLLECTION_NAME));
+    transaction.setOutfitId(transactionRequest.getOutfitId());
+    transaction.setEventId(transactionRequest.getEventId());
+    transaction.setUserId(transactionRequest.getUserId());
+    transaction.setPackageId(transactionRequest.getPackageId());
+    transaction.setName(transactionRequest.getName());
+    transaction.setTotalUsher(transactionRequest.getTotalUsher());
+    transaction.setEventDate(transactionRequest.getEventDate());
+    transaction.setVenue(transactionRequest.getVenue());
+    if (StringUtils.isNotEmpty(transactionRequest.getWo())) {
+      transaction.setWo(transactionRequest.getWo());
+    }
+    transaction.setTotalPrice(transactionRequest.getTotalPrice()); // need to change later
+    transaction.setPaymentStatus(transactionRequest.getPaymentStatus());
+    transaction.setUpdatedBy(transactionRequest.getUpdatedBy());
+    transaction.setCreatedDate(new Date());
+    transaction.setUpdatedDate(new Date());
+    transaction.setIsDeleted(0);
+    return transactionRepository.save(transaction);
   }
 }
