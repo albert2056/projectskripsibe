@@ -96,12 +96,20 @@ public class TransactionServiceImpl implements TransactionService {
     if (StringUtils.isNotEmpty(transactionRequest.getWo())) {
       transaction.setWo(transactionRequest.getWo());
     }
-    transaction.setTotalPrice(transactionRequest.getTotalPrice()); // need to change later
-    transaction.setPaymentStatus(transactionRequest.getPaymentStatus());
+    transaction.setTotalPrice(
+        this.getTotalPrice(transactionRequest.getPackageId(), transactionRequest.getTotalUsher()));
+    transaction.setPaymentStatus("WAITING FOR PAYMENT");
     transaction.setUpdatedBy(transactionRequest.getUpdatedBy());
     transaction.setCreatedDate(new Date());
     transaction.setUpdatedDate(new Date());
     transaction.setIsDeleted(0);
     return transactionRepository.save(transaction);
+  }
+
+  private Integer getTotalPrice(Integer packageId, Integer totalUsher) {
+    if (packageId == 1) {
+      return totalUsher * 550000;
+    }
+    return totalUsher * 400000;
   }
 }

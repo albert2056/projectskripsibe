@@ -4,9 +4,11 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.controller.path.ProjectPath;
 import com.project.helper.ErrorMessage;
-import com.project.helper.TransactionHelper;
+import com.project.model.Transaction;
 import com.project.model.request.BookRequest;
+import com.project.model.request.TransactionRequest;
 import com.project.model.response.TransactionResponse;
+import com.project.repository.TransactionRepository;
 import jakarta.validation.constraints.Negative;
 import jakarta.validation.constraints.Positive;
 import org.junit.jupiter.api.BeforeEach;
@@ -24,7 +26,12 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class TransactionControllerIntegrationTest extends BaseIntegrationTest {
 
+  @Autowired
+  private TransactionRepository transactionRepository;
+
   private BookRequest bookRequest;
+
+  private TransactionRequest transactionRequest;
 
   @BeforeEach
   public void setUp() {
@@ -34,6 +41,18 @@ public class TransactionControllerIntegrationTest extends BaseIntegrationTest {
     bookRequest.setVenue("Jakarta");
     bookRequest.setEventDate(new Date(9151462800000L));
     bookRequest.setWo("Akira");
+
+    transactionRequest = new TransactionRequest();
+    transactionRequest.setOutfitId(1);
+    transactionRequest.setEventId(1);
+    transactionRequest.setUserId(1);
+    transactionRequest.setPackageId(1);
+    transactionRequest.setName("Albert");
+    transactionRequest.setTotalUsher(8);
+    transactionRequest.setEventDate(new Date(9151462800000L));
+    transactionRequest.setVenue("Jakarta Event Hall");
+    transactionRequest.setWo("Akira");
+    transactionRequest.setUpdatedBy("albert@gmail.com");
   }
 
   @Positive
@@ -149,5 +168,49 @@ public class TransactionControllerIntegrationTest extends BaseIntegrationTest {
 
     assertNotNull(transactionResponse.getStatusCode());
     assertEquals(ErrorMessage.EVENT_DATE_PAST, transactionResponse.getDescription());
+  }
+
+  @Positive
+  @Test
+  public void getInvoice_premium_shouldReturnResponse() throws Exception {
+    MvcResult result = mockMvc.perform(
+        post(ProjectPath.TRANSACTION + ProjectPath.INVOICE).accept(MediaType.APPLICATION_JSON_VALUE)
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(new ObjectMapper().writeValueAsString(transactionRequest))).andReturn();
+
+    Transaction transaction = getContent(result, new TypeReference<Transaction>() {
+    });
+
+    Transaction savedTransaction =
+        this.transactionRepository.findByIdAndIsDeleted(transaction.getId(),
+            transaction.getIsDeleted());
+
+    assertNotNull(savedTransaction);
+    assertEquals(savedTransaction, transaction);
+    assertEquals("WAITING FOR PAYMENT", transaction.getPaymentStatus());
+    assertEquals(4400000, transaction.getTotalPrice());
+  }
+
+  @Positive
+  @Test
+  public void getInvoice_standard_shouldReturnResponse() throws Exception {
+    transactionRequest.setPackageId(2);
+
+    MvcResult result = mockMvc.perform(
+        post(ProjectPath.TRANSACTION + ProjectPath.INVOICE).accept(MediaType.APPLICATION_JSON_VALUE)
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(new ObjectMapper().writeValueAsString(transactionRequest))).andReturn();
+
+    Transaction transaction = getContent(result, new TypeReference<Transaction>() {
+    });
+
+    Transaction savedTransaction =
+        this.transactionRepository.findByIdAndIsDeleted(transaction.getId(),
+            transaction.getIsDeleted());
+
+    assertNotNull(savedTransaction);
+    assertEquals(savedTransaction, transaction);
+    assertEquals("WAITING FOR PAYMENT", transaction.getPaymentStatus());
+    assertEquals(3200000, transaction.getTotalPrice());
   }
 }
