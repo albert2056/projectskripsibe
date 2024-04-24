@@ -52,7 +52,7 @@ public class TransactionControllerIntegrationTest extends BaseIntegrationTest {
     transactionRequest.setEventDate(new Date(9151462800000L));
     transactionRequest.setVenue("Jakarta Event Hall");
     transactionRequest.setWo("Akira");
-    transactionRequest.setUpdatedBy("albert@gmail.com");
+    transactionRequest.setUpdatedBy(1);
   }
 
   @Positive

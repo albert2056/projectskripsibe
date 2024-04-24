@@ -1,11 +1,9 @@
-package com.project.model;
+package com.project.model.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Date;
 
@@ -13,10 +11,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Document(collection = Portfolio.COLLECTION_NAME)
-public class Portfolio {
-  public static final String COLLECTION_NAME = "portfolio";
-  @Id
+public class PortfolioResponse {
   private Integer id;
   private String image;
   private String gownName;
@@ -27,4 +22,6 @@ public class Portfolio {
   private String name;
   private String eventName;
   private Integer isDeleted;
+  private Integer statusCode;
+  private String description;
 }

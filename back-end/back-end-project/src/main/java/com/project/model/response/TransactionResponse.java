@@ -40,7 +40,7 @@ public class TransactionResponse {
   @Nullable
   private Date createdDate;
   @Nullable
-  private String updatedBy;
+  private Integer updatedBy;
   @Nullable
   private Date updatedDate;
   private Integer statusCode;

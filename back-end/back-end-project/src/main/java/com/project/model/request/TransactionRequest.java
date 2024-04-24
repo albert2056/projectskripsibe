@@ -36,5 +36,5 @@ public class TransactionRequest {
   @Nullable
   private String paymentStatus;
   @Nullable
-  private String updatedBy;
+  private Integer updatedBy;
 }

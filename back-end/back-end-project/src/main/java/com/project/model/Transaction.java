@@ -31,7 +31,7 @@ public class Transaction {
   private Integer totalPrice;
   private String paymentStatus;
   private Date createdDate;
-  private String updatedBy;
+  private Integer updatedBy;
   private Date updatedDate;
   private Integer isDeleted;
 }
