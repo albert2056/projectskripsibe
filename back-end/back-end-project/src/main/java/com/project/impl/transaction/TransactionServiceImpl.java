@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 
 @Service
 @Slf4j
@@ -35,6 +36,11 @@ public class TransactionServiceImpl implements TransactionService {
   @Override
   public Transaction getInvoice(TransactionRequest transactionRequest) throws Exception {
     return this.constructTransaction(transactionRequest);
+  }
+
+  @Override
+  public List<Transaction> getAllTransactions() {
+    return this.transactionRepository.findByIsDeleted(0);
   }
 
   private void validateBookRequest(BookRequest bookRequest) throws Exception {
