@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.controller.path.ProjectPath;
 import com.project.helper.ErrorMessage;
+import com.project.helper.IdHelper;
 import com.project.model.User;
 import com.project.model.request.UserRequest;
 import com.project.model.response.UserResponse;
@@ -25,6 +26,9 @@ public class RegisterControllerIntegrationTest extends BaseIntegrationTest {
 
   @Autowired
   private UserRepository userRepository;
+
+  @Autowired
+  private IdHelper idHelper;
 
   private UserRequest userRequest;
 
@@ -52,6 +56,9 @@ public class RegisterControllerIntegrationTest extends BaseIntegrationTest {
 
     User user = this.userRepository.findByIdAndIsDeleted(userResponse.getId(), 0);
     assertNotNull(user);
+
+    this.userRepository.delete(user);
+    this.idHelper.decrementSequenceId(User.COLLECTION_NAME);
   }
 
   @Negative

@@ -4,7 +4,9 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.controller.path.ProjectPath;
 import com.project.helper.ErrorMessage;
+import com.project.helper.IdHelper;
 import com.project.model.Transaction;
+import com.project.model.User;
 import com.project.model.request.BookRequest;
 import com.project.model.request.TransactionRequest;
 import com.project.model.response.TransactionResponse;
@@ -28,6 +30,9 @@ public class TransactionControllerIntegrationTest extends BaseIntegrationTest {
 
   @Autowired
   private TransactionRepository transactionRepository;
+
+  @Autowired
+  private IdHelper idHelper;
 
   private BookRequest bookRequest;
 
@@ -189,6 +194,9 @@ public class TransactionControllerIntegrationTest extends BaseIntegrationTest {
     assertEquals(savedTransaction, transaction);
     assertEquals("WAITING FOR PAYMENT", transaction.getPaymentStatus());
     assertEquals(4400000, transaction.getTotalPrice());
+
+    this.transactionRepository.delete(savedTransaction);
+    this.idHelper.decrementSequenceId(Transaction.COLLECTION_NAME);
   }
 
   @Positive
@@ -212,5 +220,8 @@ public class TransactionControllerIntegrationTest extends BaseIntegrationTest {
     assertEquals(savedTransaction, transaction);
     assertEquals("WAITING FOR PAYMENT", transaction.getPaymentStatus());
     assertEquals(3200000, transaction.getTotalPrice());
+
+    this.transactionRepository.delete(savedTransaction);
+    this.idHelper.decrementSequenceId(Transaction.COLLECTION_NAME);
   }
 }
