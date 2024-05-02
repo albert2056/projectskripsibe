@@ -1,7 +1,9 @@
 package com.project.controller;
 
 import com.project.controller.path.ProjectPath;
+import com.project.helper.IdHelper;
 import com.project.helper.PortfolioHelper;
+import com.project.model.Portfolio;
 import com.project.model.request.PortfolioRequest;
 import com.project.model.response.PortfolioResponse;
 import com.project.service.portfolio.PortfolioService;
@@ -26,12 +28,14 @@ public class PortfolioCrudController {
 
   private final PortfolioService portfolioService;
   private final PortfolioHelper portfolioHelper;
+  private final IdHelper idHelper;
 
   @PostMapping(ProjectPath.CREATE)
   public PortfolioResponse savePortfolio(@RequestBody PortfolioRequest portfolioRequest) throws Exception {
     try {
       return this.portfolioHelper.convertPortfolioToPortfolioResponse(this.portfolioService.savePortfolio(portfolioRequest));
     } catch (Exception e) {
+      this.idHelper.decrementSequenceId(Portfolio.COLLECTION_NAME);
       return this.portfolioHelper.convertToErrorPortfolioResponse(401, e.getMessage());
     }
   }

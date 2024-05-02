@@ -107,8 +107,7 @@ public class OutfitControllerCrudIntegrationTest extends BaseIntegrationTest {
   public void getOutfit_shouldReturnResponse() throws Exception {
     MvcResult result = mockMvc.perform(
         get(ProjectPath.OUTFIT + ProjectPath.FIND_ALL).accept(MediaType.APPLICATION_JSON_VALUE)
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(new ObjectMapper().writeValueAsString(outfitRequest))).andReturn();
+            .contentType(MediaType.APPLICATION_JSON)).andReturn();
 
     List<OutfitResponse> outfitResponses = getContent(result, new TypeReference<List<OutfitResponse>>() {
     });
