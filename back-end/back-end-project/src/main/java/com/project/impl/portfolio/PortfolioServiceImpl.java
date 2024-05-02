@@ -10,10 +10,15 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
+
+import static org.springframework.data.mongodb.core.query.Criteria.where;
 
 @Service
 @Slf4j
@@ -38,6 +43,16 @@ public class PortfolioServiceImpl implements PortfolioService {
     return this.portfolioRepository.findByIsDeleted(0);
   }
 
+  @Override
+  public boolean deleteOutfit(Integer id) {
+    Portfolio portfolio = this.portfolioRepository.findByIdAndIsDeleted(id, 0);
+    if (Objects.isNull(portfolio)) {
+      return false;
+    }
+    this.deletePortfolioById(id);
+    return true;
+  }
+
   private Portfolio generatePortfolio(PortfolioRequest portfolioRequest) throws Exception {
     Portfolio portfolio = new Portfolio();
     portfolio.setId(idHelper.getNextSequenceId(Portfolio.COLLECTION_NAME));
@@ -60,5 +75,13 @@ public class PortfolioServiceImpl implements PortfolioService {
         .orElseThrow(() -> new Exception(ErrorMessage.EVENT_NAME_REQUIRED)));
     portfolio.setIsDeleted(0);
     return portfolio;
+  }
+
+  private void deletePortfolioById(Integer id){
+    Query query = new Query(
+        where("_id").is(id));
+    Update update = new Update().set("isDeleted", 1);
+
+    this.mongoTemplate.updateMulti(query, update, Portfolio.class);
   }
 }

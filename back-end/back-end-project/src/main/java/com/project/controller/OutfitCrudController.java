@@ -1,8 +1,11 @@
 package com.project.controller;
 
 import com.project.controller.path.ProjectPath;
+import com.project.helper.IdHelper;
 import com.project.helper.OutfitHelper;
+import com.project.model.Outfit;
 import com.project.model.OutfitCategory;
+import com.project.model.User;
 import com.project.model.request.OutfitRequest;
 import com.project.model.response.OutfitResponse;
 import com.project.service.outift.OutfitService;
@@ -52,6 +55,11 @@ public class OutfitCrudController {
   @GetMapping(ProjectPath.FIND_BY_OUTFIT_CATEGORY_ID)
   public List<OutfitResponse> findOutfitByOutfitCategoryId(@RequestParam Integer outfitCategoryId) throws Exception {
     return outfitHelper.convertToListOutfitResponse(outfitService.findByOutfitCategoryId(outfitCategoryId));
+  }
+
+  @GetMapping(ProjectPath.FIND_BY_ID)
+  public OutfitResponse findById(@RequestParam Integer outfitId) throws Exception {
+    return outfitHelper.convertToOutfitResponse(outfitService.findById(outfitId));
   }
 
   @DeleteMapping(ProjectPath.DELETE)

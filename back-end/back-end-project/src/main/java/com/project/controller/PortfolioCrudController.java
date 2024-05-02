@@ -8,6 +8,7 @@ import com.project.service.portfolio.PortfolioService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -38,5 +39,10 @@ public class PortfolioCrudController {
   @GetMapping(ProjectPath.FIND_ALL)
   public List<PortfolioResponse> getPortfolio() {
     return this.portfolioHelper.convertPortfolioToPortfolioResponses(this.portfolioService.findAll());
+  }
+
+  @DeleteMapping(ProjectPath.DELETE)
+  public boolean deleteOutfit(Integer id) throws Exception {
+    return portfolioService.deleteOutfit(id);
   }
 }

@@ -10,6 +10,7 @@ import com.project.repository.OutfitRepository;
 import com.project.service.outift.OutfitService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
@@ -63,12 +64,18 @@ public class OutfitServiceImpl implements OutfitService {
 
   @Override
   public List<Outfit> findAll() {
-    return outfitRepository.findByIsDeleted(0);
+    return outfitRepository.findByIsDeleted(0, Sort.by("_id").ascending());
   }
 
   @Override
   public List<Outfit> findByOutfitCategoryId(Integer outfitCategoryId) {
-    return outfitRepository.findByOutfitCategoryIdAndIsDeleted(outfitCategoryId, 0);
+    return outfitRepository.findByOutfitCategoryIdAndIsDeleted(outfitCategoryId, 0,
+        Sort.by("_id").ascending());
+  }
+
+  @Override
+  public Outfit findById(Integer id) {
+    return outfitRepository.findByIdAndIsDeleted(id, 0);
   }
 
   @Override
