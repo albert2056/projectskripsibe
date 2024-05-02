@@ -1,11 +1,8 @@
 package com.project.controller;
 
 import com.project.controller.path.ProjectPath;
-import com.project.helper.IdHelper;
 import com.project.helper.OutfitHelper;
-import com.project.model.Outfit;
 import com.project.model.OutfitCategory;
-import com.project.model.User;
 import com.project.model.request.OutfitRequest;
 import com.project.model.response.OutfitResponse;
 import com.project.service.outift.OutfitService;
