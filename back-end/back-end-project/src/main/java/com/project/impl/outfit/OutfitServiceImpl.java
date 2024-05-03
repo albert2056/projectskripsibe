@@ -55,6 +55,19 @@ public class OutfitServiceImpl implements OutfitService {
   }
 
   @Override
+  public Outfit updateOutfit(Integer id, OutfitRequest outfitRequest) throws Exception {
+    this.validateFields(outfitRequest);
+    Query query = new Query(where("_id").is(id));
+    Update update = new Update().set("outfitCategoryId", outfitRequest.getOutfitCategoryId())
+        .set("name", outfitRequest.getName()).set("qty", outfitRequest.getQty())
+        .set("image", outfitRequest.getImage()).set("updatedBy", outfitRequest.getUpdatedBy())
+        .set("updatedDate", new Date());
+
+    this.mongoTemplate.updateMulti(query, update, Outfit.class);
+    return this.outfitRepository.findByIdAndIsDeleted(id, 0);
+  }
+
+  @Override
   public OutfitCategory saveOutfitCategory(String name) {
     OutfitCategory outfitCategory = new OutfitCategory();
     outfitCategory.setId(idHelper.getNextSequenceId(OutfitCategory.COLLECTION_NAME));
@@ -80,7 +93,7 @@ public class OutfitServiceImpl implements OutfitService {
 
   @Override
   public boolean deleteOutfit(Integer id) {
-    Outfit outfit = outfitRepository.findByIdAndIsDeleted(id, 0);
+    Outfit outfit = this.outfitRepository.findByIdAndIsDeleted(id, 0);
     if (Objects.isNull(outfit)) {
       return false;
     }

@@ -8,7 +8,9 @@ public class ProjectPath {
   public static final String REGISTER = "/api/register";
   public static final String TRANSACTION = "/api/transaction";
   public static final String PORTFOLIO = "/api/portfolio";
+  public static final String PACKAGE = "/api/package";
   public static final String CREATE = "/create";
+  public static final String UPDATE = "/update";
   public static final String CATEGORY = "/category";
   public static final String FIND_ALL = "/findAll";
   public static final String FIND_BY_ID = "/findById";

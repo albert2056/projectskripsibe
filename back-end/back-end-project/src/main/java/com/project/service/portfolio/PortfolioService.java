@@ -7,6 +7,7 @@ import java.util.List;
 
 public interface PortfolioService {
   Portfolio savePortfolio(PortfolioRequest portfolioRequest) throws Exception;
+  Portfolio updatePortfolio(Integer id, PortfolioRequest portfolioRequest) throws Exception;
   List<Portfolio> findAll();
   boolean deleteOutfit(Integer id);
 }

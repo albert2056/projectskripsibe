@@ -36,7 +36,15 @@ public class OutfitCrudController {
     } catch (Exception e) {
       return this.outfitHelper.convertToErrorOutfitResponse(401, e.getMessage());
     }
+  }
 
+  @PostMapping(ProjectPath.UPDATE)
+  public OutfitResponse updateOutfit(@RequestParam Integer id, @RequestBody OutfitRequest outfitRequest) throws Exception {
+    try {
+      return outfitHelper.convertToOutfitResponse(outfitService.updateOutfit(id, outfitRequest));
+    } catch (Exception e) {
+      return this.outfitHelper.convertToErrorOutfitResponse(401, e.getMessage());
+    }
   }
 
   @PostMapping(ProjectPath.CATEGORY + ProjectPath.CREATE)

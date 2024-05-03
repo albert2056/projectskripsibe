@@ -35,7 +35,24 @@ public class PortfolioServiceImpl implements PortfolioService {
 
   @Override
   public Portfolio savePortfolio(PortfolioRequest portfolioRequest) throws Exception {
-    return portfolioRepository.save(this.generatePortfolio(portfolioRequest));
+    Portfolio portfolio = this.generatePortfolio(portfolioRequest);
+    portfolio.setId(idHelper.getNextSequenceId(Portfolio.COLLECTION_NAME));
+    portfolio.setIsDeleted(0);
+    return portfolioRepository.save(portfolio);
+  }
+
+  @Override
+  public Portfolio updatePortfolio(Integer id, PortfolioRequest portfolioRequest) throws Exception {
+    Portfolio portfolio = this.generatePortfolio(portfolioRequest);
+    Query query = new Query(where("_id").is(id));
+    Update update =
+        new Update().set("image", portfolio.getImage()).set("gownName", portfolio.getGownName())
+            .set("eventDate", portfolio.getEventDate()).set("venue", portfolio.getVenue())
+            .set("wo", portfolio.getWo()).set("column", portfolio.getColumn())
+            .set("name", portfolio.getName()).set("eventName", portfolio.getEventName());
+
+    this.mongoTemplate.updateMulti(query, update, Portfolio.class);
+    return this.portfolioRepository.findByIdAndIsDeleted(id, 0);
   }
 
   @Override
@@ -55,7 +72,6 @@ public class PortfolioServiceImpl implements PortfolioService {
 
   private Portfolio generatePortfolio(PortfolioRequest portfolioRequest) throws Exception {
     Portfolio portfolio = new Portfolio();
-    portfolio.setId(idHelper.getNextSequenceId(Portfolio.COLLECTION_NAME));
     portfolio.setImage(Optional.ofNullable(portfolioRequest.getImage())
         .orElseThrow(() -> new Exception(ErrorMessage.IMAGE_REQUIRED)));
     portfolio.setGownName(Optional.ofNullable(portfolioRequest.getGownName())
@@ -73,7 +89,6 @@ public class PortfolioServiceImpl implements PortfolioService {
         .orElseThrow(() -> new Exception(ErrorMessage.NAME_REQUIRED)));
     portfolio.setEventName(Optional.ofNullable(portfolioRequest.getEventName())
         .orElseThrow(() -> new Exception(ErrorMessage.EVENT_NAME_REQUIRED)));
-    portfolio.setIsDeleted(0);
     return portfolio;
   }
 

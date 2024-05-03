@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -36,6 +37,17 @@ public class PortfolioCrudController {
       return this.portfolioHelper.convertPortfolioToPortfolioResponse(this.portfolioService.savePortfolio(portfolioRequest));
     } catch (Exception e) {
       this.idHelper.decrementSequenceId(Portfolio.COLLECTION_NAME);
+      return this.portfolioHelper.convertToErrorPortfolioResponse(401, e.getMessage());
+    }
+  }
+
+  @PostMapping(ProjectPath.UPDATE)
+  public PortfolioResponse updatePortfolio(@RequestParam Integer id,
+      @RequestBody PortfolioRequest portfolioRequest) throws Exception {
+    try {
+      return this.portfolioHelper.convertPortfolioToPortfolioResponse(
+          this.portfolioService.updatePortfolio(id, portfolioRequest));
+    } catch (Exception e) {
       return this.portfolioHelper.convertToErrorPortfolioResponse(401, e.getMessage());
     }
   }
