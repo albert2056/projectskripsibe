@@ -9,6 +9,7 @@ import com.project.model.Portfolio;
 import com.project.model.request.PortfolioRequest;
 import com.project.model.response.PortfolioResponse;
 import com.project.repository.PortfolioRepository;
+import jakarta.validation.constraints.Negative;
 import jakarta.validation.constraints.Positive;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -91,7 +92,7 @@ public class PortfolioControllerCrudIntegrationTest extends BaseIntegrationTest 
     this.idHelper.decrementSequenceId(Portfolio.COLLECTION_NAME);
   }
 
-  @Positive
+  @Negative
   @Test
   public void savePortfolio_emptyField_shouldReturnResponse() throws Exception {
     portfolioRequest.setImage(null);
@@ -107,6 +108,90 @@ public class PortfolioControllerCrudIntegrationTest extends BaseIntegrationTest 
     assertNotNull(portfolioResponse.getStatusCode());
     assertEquals(ErrorMessage.IMAGE_REQUIRED, portfolioResponse.getDescription());
   }
+
+  @Positive
+  @Test
+  public void updatePortfolio_shouldReturnResponse() throws Exception {
+    MvcResult result = mockMvc.perform(
+        post(ProjectPath.PORTFOLIO + ProjectPath.CREATE).accept(MediaType.APPLICATION_JSON_VALUE)
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(new ObjectMapper().writeValueAsString(portfolioRequest))).andReturn();
+
+    PortfolioResponse portfolioResponse = getContent(result, new TypeReference<PortfolioResponse>() {
+    });
+
+    assertNull(portfolioResponse.getStatusCode());
+
+    Portfolio portfolio = this.portfolioRepository.findByIdAndIsDeleted(portfolioResponse.getId(), 0);
+    assertNotNull(portfolio);
+
+    portfolioRequest.setImage("Albert2.png");
+    portfolioRequest.setGownName("Elegant Gown2");
+    portfolioRequest.setVenue("Grand Hall2");
+    portfolioRequest.setWo("Albert2");
+    portfolioRequest.setColumn(2);
+    portfolioRequest.setName("Wedding2");
+    portfolioRequest.setEventName("Wedding Event2");
+
+    mockMvc.perform(
+        post(ProjectPath.PORTFOLIO + ProjectPath.UPDATE).accept(MediaType.APPLICATION_JSON_VALUE)
+            .contentType(MediaType.APPLICATION_JSON).param("id", portfolio.getId().toString())
+            .content(new ObjectMapper().writeValueAsString(portfolioRequest))).andReturn();
+
+    Portfolio portfolioUpdated = this.portfolioRepository.findByIdAndIsDeleted(portfolioResponse.getId(), 0);
+    assertNotNull(portfolioUpdated);
+
+    assertEquals("Albert2.png", portfolioUpdated.getImage());
+    assertEquals("Elegant Gown2", portfolioUpdated.getGownName());
+    assertEquals("Grand Hall2", portfolioUpdated.getVenue());
+    assertEquals("Albert2", portfolioUpdated.getWo());
+    assertEquals(2, portfolioUpdated.getColumn());
+    assertEquals("Wedding2", portfolioUpdated.getName());
+    assertEquals("Wedding Event2", portfolioUpdated.getEventName());
+
+    portfolioRepository.delete(portfolioUpdated);
+    this.idHelper.decrementSequenceId(Portfolio.COLLECTION_NAME);
+  }
+
+  @Positive
+  @Test
+  public void updatePortfolio_emptyField_shouldReturnResponse() throws Exception {
+    MvcResult result = mockMvc.perform(
+        post(ProjectPath.PORTFOLIO + ProjectPath.CREATE).accept(MediaType.APPLICATION_JSON_VALUE)
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(new ObjectMapper().writeValueAsString(portfolioRequest))).andReturn();
+
+    PortfolioResponse portfolioResponse = getContent(result, new TypeReference<PortfolioResponse>() {
+    });
+
+    assertNull(portfolioResponse.getStatusCode());
+
+    Portfolio portfolio = this.portfolioRepository.findByIdAndIsDeleted(portfolioResponse.getId(), 0);
+    assertNotNull(portfolio);
+
+    portfolioRequest.setImage(null);
+    portfolioRequest.setGownName("Elegant Gown2");
+    portfolioRequest.setVenue("Grand Hall2");
+    portfolioRequest.setWo("Albert2");
+    portfolioRequest.setColumn(2);
+    portfolioRequest.setName("Wedding2");
+    portfolioRequest.setEventName("Wedding Event2");
+
+    MvcResult result2 = mockMvc.perform(
+        post(ProjectPath.PORTFOLIO + ProjectPath.UPDATE).accept(MediaType.APPLICATION_JSON_VALUE)
+            .contentType(MediaType.APPLICATION_JSON).param("id", portfolio.getId().toString())
+            .content(new ObjectMapper().writeValueAsString(portfolioRequest))).andReturn();
+
+    PortfolioResponse portfolioResponse2 = getContent(result2, new TypeReference<PortfolioResponse>() {
+    });
+
+    assertNotNull(portfolioResponse2.getStatusCode());
+    assertEquals(ErrorMessage.IMAGE_REQUIRED, portfolioResponse2.getDescription());
+
+    portfolioRepository.delete(portfolio);
+    this.idHelper.decrementSequenceId(Portfolio.COLLECTION_NAME);
+  }
+
 
   @Positive
   @Test

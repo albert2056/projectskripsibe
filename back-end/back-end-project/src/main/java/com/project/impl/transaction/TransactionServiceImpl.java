@@ -3,10 +3,12 @@ package com.project.impl.transaction;
 import com.project.helper.ErrorMessage;
 import com.project.helper.IdHelper;
 import com.project.model.Outfit;
+import com.project.model.Package;
 import com.project.model.Transaction;
 import com.project.model.request.BookRequest;
 import com.project.model.request.TransactionRequest;
 import com.project.model.response.TransactionResponse;
+import com.project.repository.PackageRepository;
 import com.project.repository.TransactionRepository;
 import com.project.service.transaction.TransactionService;
 import io.micrometer.common.util.StringUtils;
@@ -25,6 +27,9 @@ public class TransactionServiceImpl implements TransactionService {
   private TransactionRepository transactionRepository;
 
   @Autowired
+  private PackageRepository packageRepository;
+
+  @Autowired
   private IdHelper idHelper;
 
   @Override
@@ -41,6 +46,11 @@ public class TransactionServiceImpl implements TransactionService {
   @Override
   public List<Transaction> getAllTransactions() {
     return this.transactionRepository.findByIsDeleted(0);
+  }
+
+  @Override
+  public Transaction changeStatus(String status) {
+    return null;
   }
 
   private void validateBookRequest(BookRequest bookRequest) throws Exception {
@@ -104,7 +114,7 @@ public class TransactionServiceImpl implements TransactionService {
     }
     transaction.setTotalPrice(
         this.getTotalPrice(transactionRequest.getPackageId(), transactionRequest.getTotalUsher()));
-    transaction.setPaymentStatus("WAITING FOR PAYMENT");
+    transaction.setPaymentStatus("NOT PAID");
     transaction.setUpdatedBy(transactionRequest.getUpdatedBy());
     transaction.setCreatedDate(new Date());
     transaction.setUpdatedDate(new Date());
@@ -113,9 +123,7 @@ public class TransactionServiceImpl implements TransactionService {
   }
 
   private Integer getTotalPrice(Integer packageId, Integer totalUsher) {
-    if (packageId == 1) {
-      return totalUsher * 550000;
-    }
-    return totalUsher * 400000;
+    Package pack = this.packageRepository.findByIdAndIsDeleted(packageId, 0);
+    return totalUsher * pack.getPrice();
   }
 }

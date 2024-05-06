@@ -29,14 +29,12 @@ public class PortfolioCrudController {
 
   private final PortfolioService portfolioService;
   private final PortfolioHelper portfolioHelper;
-  private final IdHelper idHelper;
 
   @PostMapping(ProjectPath.CREATE)
   public PortfolioResponse savePortfolio(@RequestBody PortfolioRequest portfolioRequest) throws Exception {
     try {
       return this.portfolioHelper.convertPortfolioToPortfolioResponse(this.portfolioService.savePortfolio(portfolioRequest));
     } catch (Exception e) {
-      this.idHelper.decrementSequenceId(Portfolio.COLLECTION_NAME);
       return this.portfolioHelper.convertToErrorPortfolioResponse(401, e.getMessage());
     }
   }

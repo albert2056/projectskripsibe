@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -47,4 +48,8 @@ public class TransactionController {
     return this.transactionService.getAllTransactions();
   }
 
+  @PostMapping(ProjectPath.CHANGE_STATUS)
+  public Transaction changeStatus(@RequestParam String status){
+    return this.transactionService.changeStatus(status);
+  }
 }

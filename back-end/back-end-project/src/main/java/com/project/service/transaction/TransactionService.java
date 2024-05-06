@@ -11,4 +11,5 @@ public interface TransactionService {
   TransactionResponse book(BookRequest bookRequest) throws Exception;
   Transaction getInvoice(TransactionRequest transactionRequest) throws Exception;
   List<Transaction> getAllTransactions();
+  Transaction changeStatus(String status);
 }

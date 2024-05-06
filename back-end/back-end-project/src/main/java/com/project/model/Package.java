@@ -17,5 +17,6 @@ public class Package {
   @Id
   private Integer id;
   private String name;
+  private Integer price;
   private Integer isDeleted;
 }

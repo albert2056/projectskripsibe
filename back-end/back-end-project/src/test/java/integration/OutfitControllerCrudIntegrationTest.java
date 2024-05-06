@@ -100,6 +100,84 @@ public class OutfitControllerCrudIntegrationTest extends BaseIntegrationTest {
     assertEquals("Albert", outfitCategory.getName());
 
     outfitCategoryRepository.delete(outfitCategory);
+    this.idHelper.decrementSequenceId(OutfitCategory.COLLECTION_NAME);
+  }
+
+  @Positive
+  @Test
+  public void updateOutfit_shouldReturnErrorResponse() throws Exception {
+    MvcResult result = mockMvc.perform(
+        post(ProjectPath.OUTFIT + ProjectPath.CREATE).accept(MediaType.APPLICATION_JSON_VALUE)
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(new ObjectMapper().writeValueAsString(outfitRequest))).andReturn();
+
+    OutfitResponse outfitResponse = getContent(result, new TypeReference<OutfitResponse>() {
+    });
+
+    assertNull(outfitResponse.getStatusCode());
+
+    Outfit outfit = this.outfitRepository.findByIdAndIsDeleted(outfitResponse.getId(), 0);
+    assertNotNull(outfit);
+
+    outfitRequest.setOutfitCategoryId(2);
+    outfitRequest.setName("Albert2");
+    outfitRequest.setQty(3);
+    outfitRequest.setImage("Albert2.png");
+    outfitRequest.setUpdatedBy(2);
+
+    mockMvc.perform(
+        post(ProjectPath.OUTFIT + ProjectPath.UPDATE).accept(MediaType.APPLICATION_JSON_VALUE)
+            .contentType(MediaType.APPLICATION_JSON).param("id", outfit.getId().toString())
+            .content(new ObjectMapper().writeValueAsString(outfitRequest))).andReturn();
+
+    Outfit outfitUpdated = this.outfitRepository.findByIdAndIsDeleted(outfitResponse.getId(), 0);
+    assertNotNull(outfitUpdated);
+
+    assertEquals(2, outfitUpdated.getOutfitCategoryId());
+    assertEquals("Albert2", outfitUpdated.getName());
+    assertEquals(3, outfitUpdated.getQty());
+    assertEquals("Albert2.png", outfitUpdated.getImage());
+    assertEquals(2, outfitUpdated.getUpdatedBy());
+
+    outfitRepository.delete(outfitUpdated);
+    this.idHelper.decrementSequenceId(Outfit.COLLECTION_NAME);
+  }
+
+  @Positive
+  @Test
+  public void updateOutfit_emptyField_shouldReturnErrorResponse() throws Exception {
+    MvcResult result = mockMvc.perform(
+        post(ProjectPath.OUTFIT + ProjectPath.CREATE).accept(MediaType.APPLICATION_JSON_VALUE)
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(new ObjectMapper().writeValueAsString(outfitRequest))).andReturn();
+
+    OutfitResponse outfitResponse = getContent(result, new TypeReference<OutfitResponse>() {
+    });
+
+    assertNull(outfitResponse.getStatusCode());
+
+    Outfit outfit = this.outfitRepository.findByIdAndIsDeleted(outfitResponse.getId(), 0);
+    assertNotNull(outfit);
+
+    outfitRequest.setOutfitCategoryId(2);
+    outfitRequest.setName(null);
+    outfitRequest.setQty(3);
+    outfitRequest.setImage("Albert2.png");
+    outfitRequest.setUpdatedBy(2);
+
+    MvcResult result2 = mockMvc.perform(
+        post(ProjectPath.OUTFIT + ProjectPath.UPDATE).accept(MediaType.APPLICATION_JSON_VALUE)
+            .contentType(MediaType.APPLICATION_JSON).param("id", outfit.getId().toString())
+            .content(new ObjectMapper().writeValueAsString(outfitRequest))).andReturn();
+
+    OutfitResponse outfitResponse2 = getContent(result2, new TypeReference<OutfitResponse>() {
+    });
+
+    assertNotNull(outfitResponse2.getStatusCode());
+    assertEquals("Outfit request fields cannot be null", outfitResponse2.getDescription());
+
+    outfitRepository.delete(outfit);
+    this.idHelper.decrementSequenceId(Outfit.COLLECTION_NAME);
   }
 
   @Positive

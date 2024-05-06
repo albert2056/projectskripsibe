@@ -29,18 +29,19 @@ public class PackageServiceImpl implements PackageService {
   private MongoTemplate mongoTemplate;
 
   @Override
-  public Package savePackage(String name) {
+  public Package savePackage(String name, Integer price) {
     Package pack = new Package();
     pack.setId(idHelper.getNextSequenceId(Package.COLLECTION_NAME));
     pack.setName(name);
+    pack.setPrice(price);
     pack.setIsDeleted(0);
     return this.packageRepository.save(pack);
   }
 
   @Override
-  public Package updatePackage(Integer id, String name) {
+  public Package updatePackage(Integer id, String name, Integer price) {
     Query query = new Query(where("_id").is(id));
-    Update update = new Update().set("name", name);
+    Update update = new Update().set("name", name).set("price", price);
     this.mongoTemplate.updateMulti(query, update, Package.class);
     return this.packageRepository.findByIdAndIsDeleted(id, 0);
   }
@@ -53,6 +54,11 @@ public class PackageServiceImpl implements PackageService {
     }
     this.deletePackageById(id);
     return true;
+  }
+
+  @Override
+  public Package findById(Integer id) {
+    return this.packageRepository.findByIdAndIsDeleted(id, 0);
   }
 
   private void deletePackageById(Integer id){

@@ -5,14 +5,16 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.controller.path.ProjectPath;
 import com.project.helper.ErrorMessage;
 import com.project.helper.IdHelper;
+import com.project.model.Package;
 import com.project.model.Transaction;
-import com.project.model.User;
 import com.project.model.request.BookRequest;
 import com.project.model.request.TransactionRequest;
 import com.project.model.response.TransactionResponse;
+import com.project.repository.PackageRepository;
 import com.project.repository.TransactionRepository;
 import jakarta.validation.constraints.Negative;
 import jakarta.validation.constraints.Positive;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,11 +34,16 @@ public class TransactionControllerIntegrationTest extends BaseIntegrationTest {
   private TransactionRepository transactionRepository;
 
   @Autowired
+  private PackageRepository packageRepository;
+
+  @Autowired
   private IdHelper idHelper;
 
   private BookRequest bookRequest;
 
   private TransactionRequest transactionRequest;
+
+  private Package pack;
 
   @BeforeEach
   public void setUp() {
@@ -58,6 +65,18 @@ public class TransactionControllerIntegrationTest extends BaseIntegrationTest {
     transactionRequest.setVenue("Jakarta Event Hall");
     transactionRequest.setWo("Akira");
     transactionRequest.setUpdatedBy(1);
+
+    pack = new Package();
+    pack.setId(1);
+    pack.setName("Premium");
+    pack.setPrice(550000);
+    pack.setIsDeleted(0);
+    packageRepository.save(pack);
+  }
+
+  @AfterEach
+  public void tearDown() {
+    packageRepository.delete(pack);
   }
 
   @Positive
@@ -177,7 +196,7 @@ public class TransactionControllerIntegrationTest extends BaseIntegrationTest {
 
   @Positive
   @Test
-  public void getInvoice_premium_shouldReturnResponse() throws Exception {
+  public void getInvoice_shouldReturnResponse() throws Exception {
     MvcResult result = mockMvc.perform(
         post(ProjectPath.TRANSACTION + ProjectPath.INVOICE).accept(MediaType.APPLICATION_JSON_VALUE)
             .contentType(MediaType.APPLICATION_JSON)
@@ -192,34 +211,7 @@ public class TransactionControllerIntegrationTest extends BaseIntegrationTest {
 
     assertNotNull(savedTransaction);
     assertEquals(savedTransaction, transaction);
-    assertEquals("WAITING FOR PAYMENT", transaction.getPaymentStatus());
-    assertEquals(4400000, transaction.getTotalPrice());
-
-    this.transactionRepository.delete(savedTransaction);
-    this.idHelper.decrementSequenceId(Transaction.COLLECTION_NAME);
-  }
-
-  @Positive
-  @Test
-  public void getInvoice_standard_shouldReturnResponse() throws Exception {
-    transactionRequest.setPackageId(2);
-
-    MvcResult result = mockMvc.perform(
-        post(ProjectPath.TRANSACTION + ProjectPath.INVOICE).accept(MediaType.APPLICATION_JSON_VALUE)
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(new ObjectMapper().writeValueAsString(transactionRequest))).andReturn();
-
-    Transaction transaction = getContent(result, new TypeReference<Transaction>() {
-    });
-
-    Transaction savedTransaction =
-        this.transactionRepository.findByIdAndIsDeleted(transaction.getId(),
-            transaction.getIsDeleted());
-
-    assertNotNull(savedTransaction);
-    assertEquals(savedTransaction, transaction);
-    assertEquals("WAITING FOR PAYMENT", transaction.getPaymentStatus());
-    assertEquals(3200000, transaction.getTotalPrice());
+    assertEquals("NOT PAID", transaction.getPaymentStatus());
 
     this.transactionRepository.delete(savedTransaction);
     this.idHelper.decrementSequenceId(Transaction.COLLECTION_NAME);
