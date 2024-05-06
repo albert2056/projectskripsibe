@@ -14,10 +14,16 @@ import com.project.service.transaction.TransactionService;
 import io.micrometer.common.util.StringUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
+
+import static org.springframework.data.mongodb.core.query.Criteria.where;
 
 @Service
 @Slf4j
@@ -31,6 +37,9 @@ public class TransactionServiceImpl implements TransactionService {
 
   @Autowired
   private IdHelper idHelper;
+
+  @Autowired
+  private MongoTemplate mongoTemplate;
 
   @Override
   public TransactionResponse book(BookRequest bookRequest) throws Exception {
@@ -49,8 +58,38 @@ public class TransactionServiceImpl implements TransactionService {
   }
 
   @Override
-  public Transaction changeStatus(String status) {
-    return null;
+  public Transaction changeStatus(Integer id) {
+    Transaction transaction = this.transactionRepository.findByIdAndIsDeleted(id, 0);
+    if (Objects.isNull(transaction)) {
+      return null;
+    }
+    return this.updateStatus(id);
+  }
+
+  @Override
+  public boolean deleteTransaction(Integer id) {
+    Transaction transaction = this.transactionRepository.findByIdAndIsDeleted(id, 0);
+    if (Objects.isNull(transaction)) {
+      return false;
+    }
+    this.deleteTransactionById(id);
+    return true;
+  }
+
+  private Transaction updateStatus(Integer id) {
+    Query query = new Query(where("_id").is(id));
+    Update update = new Update().set("paymentStatus", "PAID");
+
+    this.mongoTemplate.updateMulti(query, update, Transaction.class);
+    return this.transactionRepository.findByIdAndIsDeleted(id, 0);
+  }
+
+  private void deleteTransactionById(Integer id) {
+    Query query = new Query(
+        where("_id").is(id));
+    Update update = new Update().set("isDeleted", 1);
+
+    this.mongoTemplate.updateMulti(query, update, Transaction.class);
   }
 
   private void validateBookRequest(BookRequest bookRequest) throws Exception {

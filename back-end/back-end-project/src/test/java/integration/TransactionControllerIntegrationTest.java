@@ -216,4 +216,14 @@ public class TransactionControllerIntegrationTest extends BaseIntegrationTest {
     this.transactionRepository.delete(savedTransaction);
     this.idHelper.decrementSequenceId(Transaction.COLLECTION_NAME);
   }
+
+  @Positive
+  @Test
+  public void getAllTransactions_shouldReturnResponse() throws Exception {
+    MvcResult result = mockMvc.perform(
+        post(ProjectPath.TRANSACTION + ProjectPath.FIND_ALL).accept(MediaType.APPLICATION_JSON_VALUE)
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(new ObjectMapper().writeValueAsString(transactionRequest))).andReturn();
+  }
+
 }
