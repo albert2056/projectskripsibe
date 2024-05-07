@@ -9,5 +9,6 @@ public interface PortfolioService {
   Portfolio savePortfolio(PortfolioRequest portfolioRequest) throws Exception;
   Portfolio updatePortfolio(Integer id, PortfolioRequest portfolioRequest) throws Exception;
   List<Portfolio> findAll();
-  boolean deleteOutfit(Integer id);
+  boolean deletePortfolio(Integer id);
+  Portfolio findById(Integer id);
 }

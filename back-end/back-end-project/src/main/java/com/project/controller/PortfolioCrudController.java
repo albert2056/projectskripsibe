@@ -56,7 +56,12 @@ public class PortfolioCrudController {
   }
 
   @DeleteMapping(ProjectPath.DELETE)
-  public boolean deleteOutfit(Integer id) throws Exception {
-    return portfolioService.deleteOutfit(id);
+  public boolean deletePortfolio(@RequestParam Integer id) throws Exception {
+    return portfolioService.deletePortfolio(id);
+  }
+
+  @GetMapping(ProjectPath.FIND_BY_ID)
+  public PortfolioResponse getPortfolioById(@RequestParam Integer id) {
+    return this.portfolioHelper.convertPortfolioToPortfolioResponse(this.portfolioService.findById(id));
   }
 }

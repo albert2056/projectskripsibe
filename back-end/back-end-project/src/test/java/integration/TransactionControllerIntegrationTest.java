@@ -22,9 +22,12 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MvcResult;
 
 import java.util.Date;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
@@ -221,9 +224,72 @@ public class TransactionControllerIntegrationTest extends BaseIntegrationTest {
   @Test
   public void getAllTransactions_shouldReturnResponse() throws Exception {
     MvcResult result = mockMvc.perform(
-        post(ProjectPath.TRANSACTION + ProjectPath.FIND_ALL).accept(MediaType.APPLICATION_JSON_VALUE)
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(new ObjectMapper().writeValueAsString(transactionRequest))).andReturn();
+        get(ProjectPath.TRANSACTION + ProjectPath.FIND_ALL).accept(MediaType.APPLICATION_JSON_VALUE)
+            .contentType(MediaType.APPLICATION_JSON)).andReturn();
+
+    List<Transaction> transactions = getContent(result, new TypeReference<List<Transaction>>() {
+    });
+
+    assertNotNull(transactions);
   }
 
+  @Positive
+  @Test
+  public void changeStatus_shouldReturnResponse() throws Exception {
+    MvcResult result = mockMvc.perform(
+        post(ProjectPath.TRANSACTION + ProjectPath.INVOICE).accept(MediaType.APPLICATION_JSON_VALUE)
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(new ObjectMapper().writeValueAsString(transactionRequest))).andReturn();
+
+    Transaction transaction = getContent(result, new TypeReference<Transaction>() {
+    });
+
+    Transaction savedTransaction =
+        this.transactionRepository.findByIdAndIsDeleted(transaction.getId(),
+            transaction.getIsDeleted());
+
+    assertNotNull(savedTransaction);
+
+    mockMvc.perform(
+        post(ProjectPath.TRANSACTION + ProjectPath.CHANGE_STATUS).accept(MediaType.APPLICATION_JSON_VALUE)
+            .contentType(MediaType.APPLICATION_JSON).param("id", savedTransaction.getId().toString())).andReturn();
+
+    Transaction statusChangedTransaction =
+        this.transactionRepository.findByIdAndIsDeleted(transaction.getId(),
+            transaction.getIsDeleted());
+
+    assertEquals("PAID", statusChangedTransaction.getPaymentStatus());
+
+    this.transactionRepository.delete(statusChangedTransaction);
+    this.idHelper.decrementSequenceId(Transaction.COLLECTION_NAME);
+  }
+
+  @Positive
+  @Test
+  public void deleteTransaction_shouldReturnResponse() throws Exception {
+    MvcResult result = mockMvc.perform(
+        post(ProjectPath.TRANSACTION + ProjectPath.INVOICE).accept(MediaType.APPLICATION_JSON_VALUE)
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(new ObjectMapper().writeValueAsString(transactionRequest))).andReturn();
+
+    Transaction transaction = getContent(result, new TypeReference<Transaction>() {
+    });
+
+    Transaction savedTransaction =
+        this.transactionRepository.findByIdAndIsDeleted(transaction.getId(),
+            transaction.getIsDeleted());
+
+    assertNotNull(savedTransaction);
+
+    mockMvc.perform(
+        delete(ProjectPath.TRANSACTION + ProjectPath.DELETE).accept(MediaType.APPLICATION_JSON_VALUE)
+            .contentType(MediaType.APPLICATION_JSON).param("id", savedTransaction.getId().toString())).andReturn();
+
+    Transaction deletedTransaction =
+        this.transactionRepository.findByIdAndIsDeleted(transaction.getId(), 1);
+    assertNotNull(deletedTransaction);
+
+    this.transactionRepository.delete(deletedTransaction);
+    this.idHelper.decrementSequenceId(Transaction.COLLECTION_NAME);
+  }
 }

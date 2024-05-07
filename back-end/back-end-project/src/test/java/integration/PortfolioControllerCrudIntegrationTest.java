@@ -230,4 +230,32 @@ public class PortfolioControllerCrudIntegrationTest extends BaseIntegrationTest 
     portfolioRepository.delete(portfolio);
     this.idHelper.decrementSequenceId(Portfolio.COLLECTION_NAME);
   }
+
+  @Positive
+  @Test
+  public void getPortfolioById_shouldReturnResponse() throws Exception {
+    MvcResult result = mockMvc.perform(
+        post(ProjectPath.PORTFOLIO + ProjectPath.CREATE).accept(MediaType.APPLICATION_JSON_VALUE)
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(new ObjectMapper().writeValueAsString(portfolioRequest))).andReturn();
+
+    PortfolioResponse portfolioResponse = getContent(result, new TypeReference<PortfolioResponse>() {
+    });
+
+    MvcResult result2 = mockMvc.perform(
+        get(ProjectPath.PORTFOLIO + ProjectPath.FIND_BY_ID).accept(MediaType.APPLICATION_JSON_VALUE)
+            .param("id", portfolioResponse.getId().toString())
+            .contentType(MediaType.APPLICATION_JSON)).andReturn();
+
+    PortfolioResponse portfolioResponses = getContent(result2, new TypeReference<PortfolioResponse>() {
+    });
+
+    assertNotNull(portfolioResponses);
+
+    Portfolio portfolio = this.portfolioRepository.findByIdAndIsDeleted(portfolioResponses.getId(), 0);
+    assertNotNull(portfolio);
+
+    portfolioRepository.delete(portfolio);
+    this.idHelper.decrementSequenceId(Portfolio.COLLECTION_NAME);
+  }
 }

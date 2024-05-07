@@ -61,13 +61,18 @@ public class PortfolioServiceImpl implements PortfolioService {
   }
 
   @Override
-  public boolean deleteOutfit(Integer id) {
+  public boolean deletePortfolio(Integer id) {
     Portfolio portfolio = this.portfolioRepository.findByIdAndIsDeleted(id, 0);
     if (Objects.isNull(portfolio)) {
       return false;
     }
     this.deletePortfolioById(id);
     return true;
+  }
+
+  @Override
+  public Portfolio findById(Integer id) {
+    return this.portfolioRepository.findByIdAndIsDeleted(id, 0);
   }
 
   private Portfolio generatePortfolio(PortfolioRequest portfolioRequest) throws Exception {
