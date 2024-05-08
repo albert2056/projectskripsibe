@@ -162,7 +162,12 @@ public class TransactionServiceImpl implements TransactionService {
   }
 
   private Integer getTotalPrice(Integer packageId, Integer totalUsher) {
-    Package pack = this.packageRepository.findByIdAndIsDeleted(packageId, 0);
-    return totalUsher * pack.getPrice();
+//    Package pack = this.packageRepository.findByIdAndIsDeleted(packageId, 0);
+//    return totalUsher * pack.getPrice();
+    if (packageId == 1) {
+      return totalUsher * 550000;
+    } else {
+      return 400000;
+    }
   }
 }
