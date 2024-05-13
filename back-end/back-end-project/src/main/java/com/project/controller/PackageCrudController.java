@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @Slf4j
 @RestController
 @RequiredArgsConstructor
@@ -23,14 +25,14 @@ public class PackageCrudController {
   private final PackageService packageService;
 
   @PostMapping(ProjectPath.CREATE)
-  public Package savePackage(@RequestParam String name, @RequestParam Integer price) {
-    return this.packageService.savePackage(name, price);
+  public Package savePackage(@RequestParam String name, @RequestParam Integer price, @RequestParam String description) {
+    return this.packageService.savePackage(name, price, description);
   }
 
   @PostMapping(ProjectPath.UPDATE)
   public Package updatePackage(@RequestParam Integer id, @RequestParam String name,
-      @RequestParam Integer price) {
-    return this.packageService.updatePackage(id, name, price);
+      @RequestParam Integer price, @RequestParam String description) {
+    return this.packageService.updatePackage(id, name, price, description);
   }
 
   @DeleteMapping(ProjectPath.DELETE)
@@ -41,5 +43,10 @@ public class PackageCrudController {
   @GetMapping(ProjectPath.FIND_BY_ID)
   public Package findById(Integer id) {
     return packageService.findById(id);
+  }
+
+  @GetMapping(ProjectPath.FIND_ALL)
+  public List<Package> findByAll() {
+    return packageService.findAll();
   }
 }
