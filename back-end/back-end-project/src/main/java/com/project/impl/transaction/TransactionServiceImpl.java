@@ -58,6 +58,11 @@ public class TransactionServiceImpl implements TransactionService {
   }
 
   @Override
+  public List<Transaction> getTransactionsByUserId(Integer id) {
+    return this.transactionRepository.findByUserIdAndIsDeleted(id, 0);
+  }
+
+  @Override
   public Transaction changeStatus(Integer id) {
     Transaction transaction = this.transactionRepository.findByIdAndIsDeleted(id, 0);
     if (Objects.isNull(transaction)) {

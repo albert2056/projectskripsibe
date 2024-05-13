@@ -9,4 +9,5 @@ public interface TransactionRepository extends MongoRepository<Transaction, Stri
 
   Transaction findByIdAndIsDeleted(Integer id, Integer isDeleted);
   List<Transaction> findByIsDeleted(Integer isDeleted);
+  List<Transaction> findByUserIdAndIsDeleted(Integer id, Integer isDeleted);
 }

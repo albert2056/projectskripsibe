@@ -49,6 +49,11 @@ public class TransactionController {
     return this.transactionService.getAllTransactions();
   }
 
+  @GetMapping(ProjectPath.FIND_BY_USER_ID)
+  public List<Transaction> getTransactionsByUserId(@RequestParam Integer id) {
+    return this.transactionService.getTransactionsByUserId(id);
+  }
+
   @PostMapping(ProjectPath.CHANGE_STATUS)
   public Transaction changeStatus(@RequestParam Integer id) {
     return this.transactionService.changeStatus(id);
