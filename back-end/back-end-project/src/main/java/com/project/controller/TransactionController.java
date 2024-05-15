@@ -45,13 +45,18 @@ public class TransactionController {
   }
 
   @GetMapping(ProjectPath.FIND_ALL)
-  public List<Transaction> getAllTransactions() {
-    return this.transactionService.getAllTransactions();
+  public List<Transaction> findAllTransactions() {
+    return this.transactionService.findAllTransactions();
   }
 
   @GetMapping(ProjectPath.FIND_BY_USER_ID)
-  public List<Transaction> getTransactionsByUserId(@RequestParam Integer id) {
-    return this.transactionService.getTransactionsByUserId(id);
+  public List<Transaction> findTransactionsByUserId(@RequestParam Integer id) {
+    return this.transactionService.findTransactionsByUserId(id);
+  }
+
+  @GetMapping(ProjectPath.FIND_BY_ID)
+  public Transaction findTransactionByUserId(@RequestParam Integer id) {
+    return this.transactionService.findTransactionsById(id);
   }
 
   @PostMapping(ProjectPath.CHANGE_STATUS)

@@ -19,6 +19,7 @@ public class Transaction {
   public static final String COLLECTION_NAME = "transaction";
   @Id
   private Integer id;
+  @Nullable
   private Integer outfitId;
   private Integer eventId;
   private Integer userId;
@@ -27,6 +28,7 @@ public class Transaction {
   private Integer totalUsher;
   private Date eventDate;
   private String venue;
+  @Nullable
   private String wo;
   private Integer totalPrice;
   private String paymentStatus;

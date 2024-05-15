@@ -53,12 +53,17 @@ public class TransactionServiceImpl implements TransactionService {
   }
 
   @Override
-  public List<Transaction> getAllTransactions() {
+  public List<Transaction> findAllTransactions() {
     return this.transactionRepository.findByIsDeleted(0);
   }
 
   @Override
-  public List<Transaction> getTransactionsByUserId(Integer id) {
+  public Transaction findTransactionsById(Integer id) {
+    return this.transactionRepository.findByIdAndIsDeleted(id, 0);
+  }
+
+  @Override
+  public List<Transaction> findTransactionsByUserId(Integer id) {
     return this.transactionRepository.findByUserIdAndIsDeleted(id, 0);
   }
 

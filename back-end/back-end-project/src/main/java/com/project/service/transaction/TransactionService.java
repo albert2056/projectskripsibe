@@ -10,8 +10,9 @@ import java.util.List;
 public interface TransactionService {
   TransactionResponse book(BookRequest bookRequest) throws Exception;
   Transaction getInvoice(TransactionRequest transactionRequest) throws Exception;
-  List<Transaction> getAllTransactions();
-  List<Transaction> getTransactionsByUserId(Integer id);
+  List<Transaction> findAllTransactions();
+  List<Transaction> findTransactionsByUserId(Integer id);
+  Transaction findTransactionsById(Integer id);
   Transaction changeStatus(Integer id);
   boolean deleteTransaction(Integer id);
 }
