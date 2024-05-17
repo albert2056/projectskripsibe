@@ -45,13 +45,13 @@ public class TransactionController {
   }
 
   @GetMapping(ProjectPath.FIND_ALL)
-  public List<Transaction> findAllTransactions() {
+  public List<Transaction> getAllTransactions() {
     return this.transactionService.findAllTransactions();
   }
 
   @GetMapping(ProjectPath.FIND_BY_USER_ID)
-  public List<Transaction> findTransactionsByUserId(@RequestParam Integer id) {
-    return this.transactionService.findTransactionsByUserId(id);
+  public List<Transaction> findTransactionsByUserId(@RequestParam Integer userId) {
+    return this.transactionService.findTransactionsByUserId(userId);
   }
 
   @GetMapping(ProjectPath.FIND_BY_ID)

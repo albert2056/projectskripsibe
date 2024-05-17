@@ -41,12 +41,12 @@ public class PackageCrudController {
   }
 
   @GetMapping(ProjectPath.FIND_BY_ID)
-  public Package findById(Integer id) {
+  public Package findPackageById(Integer id) {
     return packageService.findById(id);
   }
 
   @GetMapping(ProjectPath.FIND_ALL)
-  public List<Package> findByAll() {
+  public List<Package> getAllPackages() {
     return packageService.findAll();
   }
 }

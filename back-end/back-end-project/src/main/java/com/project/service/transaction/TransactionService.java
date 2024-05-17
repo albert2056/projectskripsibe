@@ -11,7 +11,7 @@ public interface TransactionService {
   TransactionResponse book(BookRequest bookRequest) throws Exception;
   Transaction getInvoice(TransactionRequest transactionRequest) throws Exception;
   List<Transaction> findAllTransactions();
-  List<Transaction> findTransactionsByUserId(Integer id);
+  List<Transaction> findTransactionsByUserId(Integer userId);
   Transaction findTransactionsById(Integer id);
   Transaction changeStatus(Integer id);
   boolean deleteTransaction(Integer id);

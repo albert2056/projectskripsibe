@@ -53,7 +53,7 @@ public class OutfitCrudController {
   }
 
   @GetMapping(ProjectPath.FIND_ALL)
-  public List<OutfitResponse> getOutfit() throws Exception {
+  public List<OutfitResponse> getAllOutfit() throws Exception {
     return outfitHelper.convertToListOutfitResponse(outfitService.findAll());
   }
 
@@ -63,8 +63,8 @@ public class OutfitCrudController {
   }
 
   @GetMapping(ProjectPath.FIND_BY_ID)
-  public OutfitResponse findById(@RequestParam Integer outfitId) throws Exception {
-    return outfitHelper.convertToOutfitResponse(outfitService.findById(outfitId));
+  public OutfitResponse findOutfitById(@RequestParam Integer id) throws Exception {
+    return outfitHelper.convertToOutfitResponse(outfitService.findById(id));
   }
 
   @DeleteMapping(ProjectPath.DELETE)

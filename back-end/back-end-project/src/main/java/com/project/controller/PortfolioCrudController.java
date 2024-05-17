@@ -51,7 +51,7 @@ public class PortfolioCrudController {
   }
 
   @GetMapping(ProjectPath.FIND_ALL)
-  public List<PortfolioResponse> getPortfolio() {
+  public List<PortfolioResponse> getAllPortfolios() {
     return this.portfolioHelper.convertPortfolioToPortfolioResponses(this.portfolioService.findAll());
   }
 
@@ -61,7 +61,7 @@ public class PortfolioCrudController {
   }
 
   @GetMapping(ProjectPath.FIND_BY_ID)
-  public PortfolioResponse getPortfolioById(@RequestParam Integer id) {
+  public PortfolioResponse findPortfolioById(@RequestParam Integer id) {
     return this.portfolioHelper.convertPortfolioToPortfolioResponse(this.portfolioService.findById(id));
   }
 }
