@@ -58,7 +58,7 @@ public class OutfitCrudController {
   }
 
   @GetMapping(ProjectPath.FIND_BY_OUTFIT_CATEGORY_ID)
-  public List<OutfitResponse> findOutfitByOutfitCategoryId(@RequestParam Integer outfitCategoryId) throws Exception {
+  public List<OutfitResponse> findOutfitsByOutfitCategoryId(@RequestParam Integer outfitCategoryId) throws Exception {
     return outfitHelper.convertToListOutfitResponse(outfitService.findByOutfitCategoryId(outfitCategoryId));
   }
 
