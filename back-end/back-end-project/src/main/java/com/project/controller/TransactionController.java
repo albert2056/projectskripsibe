@@ -55,7 +55,7 @@ public class TransactionController {
   }
 
   @GetMapping(ProjectPath.FIND_BY_ID)
-  public Transaction findTransactionByUserId(@RequestParam Integer id) {
+  public Transaction findTransactionById(@RequestParam Integer id) {
     return this.transactionService.findTransactionsById(id);
   }
 
