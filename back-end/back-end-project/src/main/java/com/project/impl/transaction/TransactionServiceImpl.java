@@ -2,7 +2,7 @@ package com.project.impl.transaction;
 
 import com.project.helper.ErrorMessage;
 import com.project.helper.IdHelper;
-import com.project.model.Outfit;
+import java.util.Calendar;
 import com.project.model.Package;
 import com.project.model.Transaction;
 import com.project.model.request.BookRequest;
@@ -68,6 +68,11 @@ public class TransactionServiceImpl implements TransactionService {
   }
 
   @Override
+  public List<Transaction> findUpcomingEvents(Integer threshold) {
+    return this.findEvents(threshold);
+  }
+
+  @Override
   public Transaction changeStatus(Integer id) {
     Transaction transaction = this.transactionRepository.findByIdAndIsDeleted(id, 0);
     if (Objects.isNull(transaction)) {
@@ -92,6 +97,18 @@ public class TransactionServiceImpl implements TransactionService {
 
     this.mongoTemplate.updateMulti(query, update, Transaction.class);
     return this.transactionRepository.findByIdAndIsDeleted(id, 0);
+  }
+
+  private List<Transaction> findEvents(Integer threshold) {
+    Date now = new Date();
+
+    Calendar calendar = Calendar.getInstance();
+    calendar.setTime(now);
+    calendar.add(Calendar.DAY_OF_YEAR, threshold);
+
+    Date upcomingDate = calendar.getTime();
+
+    return this.transactionRepository.findByEventDateRangeAndIsDeleted(now, upcomingDate, 0);
   }
 
   private void deleteTransactionById(Integer id) {

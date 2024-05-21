@@ -69,4 +69,9 @@ public class TransactionController {
     return this.transactionService.deleteTransaction(id);
   }
 
+  @GetMapping(ProjectPath.FIND_UPCOMING_EVENTS)
+  public List<Transaction> findUpcomingEvents(@RequestParam Integer threshold) {
+    return this.transactionService.findUpcomingEvents(threshold);
+  }
+
 }
