@@ -21,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MvcResult;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -235,6 +236,67 @@ public class TransactionControllerIntegrationTest extends BaseIntegrationTest {
 
   @Positive
   @Test
+  public void findByUserId_shouldReturnResponse() throws Exception {
+    Transaction transaction = new Transaction();
+    transaction.setId(100);
+    transaction.setOutfitId(1);
+    transaction.setEventId(1);
+    transaction.setUserId(1);
+    transaction.setPackageId(1);
+    transaction.setName("Albert");
+    transaction.setTotalUsher(8);
+    transaction.setEventDate(new Date(9151462800000L));
+    transaction.setVenue("Jakarta Event Hall");
+    transaction.setWo("Akira");
+    transaction.setUpdatedBy(1);
+    transaction.setIsDeleted(0);
+
+    this.transactionRepository.save(transaction);
+
+    MvcResult result = mockMvc.perform(
+        get(ProjectPath.TRANSACTION + ProjectPath.FIND_BY_USER_ID).accept(MediaType.APPLICATION_JSON_VALUE)
+            .contentType(MediaType.APPLICATION_JSON).param("userId", transaction.getUserId().toString())).andReturn();
+
+    List<Transaction> transactions = getContent(result, new TypeReference<List<Transaction>>() {
+    });
+    assertNotNull(transactions);
+
+    this.transactionRepository.delete(transaction);
+  }
+
+  @Positive
+  @Test
+  public void findById_shouldReturnResponse() throws Exception {
+    Transaction transaction = new Transaction();
+    transaction.setId(100);
+    transaction.setOutfitId(1);
+    transaction.setEventId(1);
+    transaction.setUserId(1);
+    transaction.setPackageId(1);
+    transaction.setName("Albert");
+    transaction.setTotalUsher(8);
+    transaction.setEventDate(new Date(9151462800000L));
+    transaction.setVenue("Jakarta Event Hall");
+    transaction.setWo("Akira");
+    transaction.setUpdatedBy(1);
+    transaction.setIsDeleted(0);
+
+    this.transactionRepository.save(transaction);
+
+    MvcResult result = mockMvc.perform(
+        get(ProjectPath.TRANSACTION + ProjectPath.FIND_BY_ID).accept(MediaType.APPLICATION_JSON_VALUE)
+            .contentType(MediaType.APPLICATION_JSON).param("id", transaction.getId().toString())).andReturn();
+
+    Transaction transactionResult = getContent(result, new TypeReference<Transaction>() {
+    });
+    assertNotNull(transactionResult);
+
+    this.transactionRepository.delete(transaction);
+  }
+
+
+  @Positive
+  @Test
   public void changeStatus_shouldReturnResponse() throws Exception {
     MvcResult result = mockMvc.perform(
         post(ProjectPath.TRANSACTION + ProjectPath.INVOICE).accept(MediaType.APPLICATION_JSON_VALUE)
@@ -291,5 +353,40 @@ public class TransactionControllerIntegrationTest extends BaseIntegrationTest {
 
     this.transactionRepository.delete(deletedTransaction);
     this.idHelper.decrementSequenceId(Transaction.COLLECTION_NAME);
+  }
+
+  @Positive
+  @Test
+  public void findUpcomingEvents_shouldReturnResponse() throws Exception {
+    Calendar calendar = Calendar.getInstance();
+    calendar.setTime(new Date());
+    calendar.add(Calendar.DAY_OF_YEAR, 6);
+    Date weddinDdate = calendar.getTime();
+
+    Transaction transaction = new Transaction();
+    transaction.setId(100);
+    transaction.setOutfitId(1);
+    transaction.setEventId(1);
+    transaction.setUserId(1);
+    transaction.setPackageId(1);
+    transaction.setName("Albert");
+    transaction.setTotalUsher(8);
+    transaction.setEventDate(weddinDdate);
+    transaction.setVenue("Jakarta Event Hall");
+    transaction.setWo("Akira");
+    transaction.setUpdatedBy(1);
+    transaction.setIsDeleted(0);
+
+    this.transactionRepository.save(transaction);
+
+    MvcResult result = mockMvc.perform(
+        get(ProjectPath.TRANSACTION + ProjectPath.FIND_UPCOMING_EVENTS).accept(MediaType.APPLICATION_JSON_VALUE)
+            .contentType(MediaType.APPLICATION_JSON).param("threshold", "7")).andReturn();
+
+    List<Transaction> transactions = getContent(result, new TypeReference<List<Transaction>>() {
+    });
+    assertNotNull(transactions);
+
+    this.transactionRepository.delete(transaction);
   }
 }

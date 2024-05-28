@@ -212,7 +212,7 @@ public class OutfitControllerCrudIntegrationTest extends BaseIntegrationTest {
   public void findById_shouldReturnResponse() throws Exception {
     MvcResult result = mockMvc.perform(
         get(ProjectPath.OUTFIT + ProjectPath.FIND_BY_ID).accept(MediaType.APPLICATION_JSON_VALUE)
-            .contentType(MediaType.APPLICATION_JSON).param("outfitId", "1")).andReturn();
+            .contentType(MediaType.APPLICATION_JSON).param("id", "1")).andReturn();
 
     OutfitResponse outfitResponse = getContent(result, new TypeReference<OutfitResponse>() {
     });

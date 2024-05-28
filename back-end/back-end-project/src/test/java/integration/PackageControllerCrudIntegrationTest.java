@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MvcResult;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
@@ -31,7 +33,7 @@ public class PackageControllerCrudIntegrationTest extends BaseIntegrationTest {
     MvcResult result = mockMvc.perform(
         post(ProjectPath.PACKAGE + ProjectPath.CREATE).accept(MediaType.APPLICATION_JSON_VALUE)
             .contentType(MediaType.APPLICATION_JSON).param("name", "Standard").param("price",
-                String.valueOf(550000))).andReturn();
+                String.valueOf(550000)).param("description", "desc1;desc2;desc3")).andReturn();
 
     Package pack = getContent(result, new TypeReference<Package>() {
     });
@@ -49,7 +51,7 @@ public class PackageControllerCrudIntegrationTest extends BaseIntegrationTest {
     MvcResult result = mockMvc.perform(
         post(ProjectPath.PACKAGE + ProjectPath.CREATE).accept(MediaType.APPLICATION_JSON_VALUE)
             .contentType(MediaType.APPLICATION_JSON).param("name", "premium").param("price",
-                String.valueOf(550000))).andReturn();
+                String.valueOf(550000)).param("description", "desc1;desc2;desc3")).andReturn();
 
     Package pack = getContent(result, new TypeReference<Package>() {
     });
@@ -60,13 +62,15 @@ public class PackageControllerCrudIntegrationTest extends BaseIntegrationTest {
     mockMvc.perform(
         post(ProjectPath.PACKAGE + ProjectPath.UPDATE).accept(MediaType.APPLICATION_JSON_VALUE)
             .contentType(MediaType.APPLICATION_JSON).param("id", String.valueOf(packResult.getId()))
-            .param("name", "standard").param("price", String.valueOf(400000))).andReturn();
+            .param("name", "standard").param("price", String.valueOf(400000))
+            .param("description", "desc")).andReturn();
 
     Package packUpdate = this.packageRepository.findByIdAndIsDeleted(pack.getId(), 0);
     assertNotNull(packUpdate);
 
     assertEquals("standard", packUpdate.getName());
     assertEquals(400000, packUpdate.getPrice());
+    assertEquals("desc", packUpdate.getDescription().get(0));
 
     packageRepository.delete(packUpdate);
     this.idHelper.decrementSequenceId(Package.COLLECTION_NAME);
@@ -74,11 +78,11 @@ public class PackageControllerCrudIntegrationTest extends BaseIntegrationTest {
 
   @Positive
   @Test
-  public void findById_shouldReturnRsponse() throws Exception {
+  public void findById_shouldReturnResponse() throws Exception {
     MvcResult result = mockMvc.perform(
         post(ProjectPath.PACKAGE + ProjectPath.CREATE).accept(MediaType.APPLICATION_JSON_VALUE)
             .contentType(MediaType.APPLICATION_JSON).param("name", "premium").param("price",
-                String.valueOf(550000))).andReturn();
+                String.valueOf(550000)).param("description", "desc1;desc2;desc3")).andReturn();
 
     Package pack = getContent(result, new TypeReference<Package>() {
     });
@@ -103,7 +107,7 @@ public class PackageControllerCrudIntegrationTest extends BaseIntegrationTest {
     MvcResult result = mockMvc.perform(
         post(ProjectPath.PACKAGE + ProjectPath.CREATE).accept(MediaType.APPLICATION_JSON_VALUE)
             .contentType(MediaType.APPLICATION_JSON).param("name", "Standard").param("price",
-                String.valueOf(550000))).andReturn();
+                String.valueOf(550000)).param("description", "desc1;desc2;desc3")).andReturn();
 
     Package pack = getContent(result, new TypeReference<Package>() {
     });
@@ -119,6 +123,32 @@ public class PackageControllerCrudIntegrationTest extends BaseIntegrationTest {
     assertNotNull(packDeleted);
 
     packageRepository.delete(packDeleted);
+    this.idHelper.decrementSequenceId(Package.COLLECTION_NAME);
+  }
+
+  @Positive
+  @Test
+  public void getAllPackages_shouldReturnResponse() throws Exception {
+    MvcResult result = mockMvc.perform(
+        post(ProjectPath.PACKAGE + ProjectPath.CREATE).accept(MediaType.APPLICATION_JSON_VALUE)
+            .contentType(MediaType.APPLICATION_JSON).param("name", "premium").param("price",
+                String.valueOf(550000)).param("description", "desc1;desc2;desc3")).andReturn();
+
+    Package pack = getContent(result, new TypeReference<Package>() {
+    });
+
+    Package packResult = this.packageRepository.findByIdAndIsDeleted(pack.getId(), 0);
+    assertNotNull(packResult);
+
+    MvcResult result2 = mockMvc.perform(
+        get(ProjectPath.PACKAGE + ProjectPath.FIND_ALL).accept(MediaType.APPLICATION_JSON_VALUE)
+            .contentType(MediaType.APPLICATION_JSON)).andReturn();
+
+    List<Package> packages = getContent(result2, new TypeReference<List<Package>>() {
+    });
+    assertNotNull(packages);
+
+    packageRepository.delete(packResult);
     this.idHelper.decrementSequenceId(Package.COLLECTION_NAME);
   }
 }
