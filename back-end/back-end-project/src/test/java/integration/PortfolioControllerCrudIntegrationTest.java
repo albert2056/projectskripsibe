@@ -153,9 +153,9 @@ public class PortfolioControllerCrudIntegrationTest extends BaseIntegrationTest 
     this.idHelper.decrementSequenceId(Portfolio.COLLECTION_NAME);
   }
 
-  @Positive
+  @Negative
   @Test
-  public void updatePortfolio_emptyField_shouldReturnResponse() throws Exception {
+  public void updatePortfolio_emptyField_shouldReturnErrorResponse() throws Exception {
     MvcResult result = mockMvc.perform(
         post(ProjectPath.PORTFOLIO + ProjectPath.CREATE).accept(MediaType.APPLICATION_JSON_VALUE)
             .contentType(MediaType.APPLICATION_JSON)
@@ -191,7 +191,6 @@ public class PortfolioControllerCrudIntegrationTest extends BaseIntegrationTest 
     portfolioRepository.delete(portfolio);
     this.idHelper.decrementSequenceId(Portfolio.COLLECTION_NAME);
   }
-
 
   @Positive
   @Test
