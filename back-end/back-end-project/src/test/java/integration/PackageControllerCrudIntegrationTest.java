@@ -29,7 +29,7 @@ public class PackageControllerCrudIntegrationTest extends BaseIntegrationTest {
 
   @Positive
   @Test
-  public void savePackage_shouldReturnRsponse() throws Exception {
+  public void savePackage_shouldReturnResponse() throws Exception {
     MvcResult result = mockMvc.perform(
         post(ProjectPath.PACKAGE + ProjectPath.CREATE).accept(MediaType.APPLICATION_JSON_VALUE)
             .contentType(MediaType.APPLICATION_JSON).param("name", "Standard").param("price",
@@ -47,7 +47,7 @@ public class PackageControllerCrudIntegrationTest extends BaseIntegrationTest {
 
   @Positive
   @Test
-  public void updatePackage_shouldReturnRsponse() throws Exception {
+  public void updatePackage_shouldReturnResponse() throws Exception {
     MvcResult result = mockMvc.perform(
         post(ProjectPath.PACKAGE + ProjectPath.CREATE).accept(MediaType.APPLICATION_JSON_VALUE)
             .contentType(MediaType.APPLICATION_JSON).param("name", "premium").param("price",
@@ -103,7 +103,7 @@ public class PackageControllerCrudIntegrationTest extends BaseIntegrationTest {
 
   @Positive
   @Test
-  public void deletePackage_shouldReturnRsponse() throws Exception {
+  public void deletePackage_shouldReturnResponse() throws Exception {
     MvcResult result = mockMvc.perform(
         post(ProjectPath.PACKAGE + ProjectPath.CREATE).accept(MediaType.APPLICATION_JSON_VALUE)
             .contentType(MediaType.APPLICATION_JSON).param("name", "Standard").param("price",
