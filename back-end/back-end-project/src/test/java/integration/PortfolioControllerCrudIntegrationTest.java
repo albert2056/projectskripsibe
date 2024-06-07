@@ -153,6 +153,48 @@ public class PortfolioControllerCrudIntegrationTest extends BaseIntegrationTest 
     this.idHelper.decrementSequenceId(Portfolio.COLLECTION_NAME);
   }
 
+  @Positive
+  @Test
+  public void updatePortfolio_woNull_shouldReturnResponse() throws Exception {
+    MvcResult result = mockMvc.perform(
+        post(ProjectPath.PORTFOLIO + ProjectPath.CREATE).accept(MediaType.APPLICATION_JSON_VALUE)
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(new ObjectMapper().writeValueAsString(portfolioRequest))).andReturn();
+
+    PortfolioResponse portfolioResponse = getContent(result, new TypeReference<PortfolioResponse>() {
+    });
+
+    assertNull(portfolioResponse.getStatusCode());
+
+    Portfolio portfolio = this.portfolioRepository.findByIdAndIsDeleted(portfolioResponse.getId(), 0);
+    assertNotNull(portfolio);
+
+    portfolioRequest.setImage("Albert2.png");
+    portfolioRequest.setGownName("Elegant Gown2");
+    portfolioRequest.setVenue("Grand Hall2");
+    portfolioRequest.setColumn(2);
+    portfolioRequest.setName("Wedding2");
+    portfolioRequest.setEventName("Wedding Event2");
+
+    mockMvc.perform(
+        post(ProjectPath.PORTFOLIO + ProjectPath.UPDATE).accept(MediaType.APPLICATION_JSON_VALUE)
+            .contentType(MediaType.APPLICATION_JSON).param("id", portfolio.getId().toString())
+            .content(new ObjectMapper().writeValueAsString(portfolioRequest))).andReturn();
+
+    Portfolio portfolioUpdated = this.portfolioRepository.findByIdAndIsDeleted(portfolioResponse.getId(), 0);
+    assertNotNull(portfolioUpdated);
+
+    assertEquals("Albert2.png", portfolioUpdated.getImage());
+    assertEquals("Elegant Gown2", portfolioUpdated.getGownName());
+    assertEquals("Grand Hall2", portfolioUpdated.getVenue());
+    assertEquals(2, portfolioUpdated.getColumn());
+    assertEquals("Wedding2", portfolioUpdated.getName());
+    assertEquals("Wedding Event2", portfolioUpdated.getEventName());
+
+    portfolioRepository.delete(portfolioUpdated);
+    this.idHelper.decrementSequenceId(Portfolio.COLLECTION_NAME);
+  }
+
   @Negative
   @Test
   public void updatePortfolio_emptyField_shouldReturnErrorResponse() throws Exception {
