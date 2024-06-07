@@ -94,7 +94,7 @@ public class PortfolioControllerCrudIntegrationTest extends BaseIntegrationTest 
 
   @Negative
   @Test
-  public void savePortfolio_emptyField_shouldReturnResponse() throws Exception {
+  public void savePortfolio_emptyField_shouldReturnErrorResponse() throws Exception {
     portfolioRequest.setImage(null);
 
     MvcResult result = mockMvc.perform(
