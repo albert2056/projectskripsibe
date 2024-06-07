@@ -195,7 +195,7 @@ public class PortfolioControllerCrudIntegrationTest extends BaseIntegrationTest 
 
   @Positive
   @Test
-  public void getPortfolio_shouldReturnResponse() throws Exception {
+  public void getAllPortfolios_shouldReturnResponse() throws Exception {
     MvcResult result = mockMvc.perform(
         get(ProjectPath.PORTFOLIO + ProjectPath.FIND_ALL).accept(MediaType.APPLICATION_JSON_VALUE)
             .contentType(MediaType.APPLICATION_JSON)).andReturn();

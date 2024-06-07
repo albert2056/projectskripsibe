@@ -78,7 +78,7 @@ public class PackageControllerCrudIntegrationTest extends BaseIntegrationTest {
 
   @Positive
   @Test
-  public void findById_shouldReturnResponse() throws Exception {
+  public void findPackageById_shouldReturnResponse() throws Exception {
     MvcResult result = mockMvc.perform(
         post(ProjectPath.PACKAGE + ProjectPath.CREATE).accept(MediaType.APPLICATION_JSON_VALUE)
             .contentType(MediaType.APPLICATION_JSON).param("name", "premium").param("price",

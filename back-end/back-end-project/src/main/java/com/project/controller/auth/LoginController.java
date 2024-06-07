@@ -3,7 +3,7 @@ package com.project.controller.auth;
 import com.project.controller.path.ProjectPath;
 import com.project.helper.UserHelper;
 import com.project.model.response.UserResponse;
-import com.project.service.auth.AuthService;
+import com.project.service.auth.LoginService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class LoginController {
 
   @Autowired
-  private AuthService authService;
+  private LoginService loginService;
 
   @Autowired
   private UserHelper userHelper;
@@ -29,7 +29,7 @@ public class LoginController {
   @PostMapping
   public UserResponse login(@RequestParam String email, @RequestParam String password) throws Exception {
     try {
-      UserResponse userResponse = this.authService.login(email, password);
+      UserResponse userResponse = this.loginService.login(email, password);
       return userResponse;
     } catch (Exception e) {
       return this.userHelper.convertToErrorUserResponse(401, e.getMessage());

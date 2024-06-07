@@ -236,7 +236,7 @@ public class TransactionControllerIntegrationTest extends BaseIntegrationTest {
 
   @Positive
   @Test
-  public void findByUserId_shouldReturnResponse() throws Exception {
+  public void findTransactionsByUserId_shouldReturnResponse() throws Exception {
     Transaction transaction = new Transaction();
     transaction.setId(100);
     transaction.setOutfitId(1);
@@ -266,7 +266,7 @@ public class TransactionControllerIntegrationTest extends BaseIntegrationTest {
 
   @Positive
   @Test
-  public void findById_shouldReturnResponse() throws Exception {
+  public void findTransactionById_shouldReturnResponse() throws Exception {
     Transaction transaction = new Transaction();
     transaction.setId(100);
     transaction.setOutfitId(1);
@@ -293,7 +293,6 @@ public class TransactionControllerIntegrationTest extends BaseIntegrationTest {
 
     this.transactionRepository.delete(transaction);
   }
-
 
   @Positive
   @Test

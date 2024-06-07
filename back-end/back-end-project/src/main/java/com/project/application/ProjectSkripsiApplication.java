@@ -11,7 +11,6 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 @EnableMongoRepositories(basePackages = "com.project.repository")
 public class ProjectSkripsiApplication {
 
-	// to open swagger hit link http://localhost:8080/swagger-ui/index.html
 	public static void main(String[] args) {
 		SpringApplication.run(ProjectSkripsiApplication.class, args);
 	}

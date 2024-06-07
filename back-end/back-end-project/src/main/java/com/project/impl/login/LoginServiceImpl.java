@@ -1,13 +1,11 @@
-package com.project.impl.auth;
+package com.project.impl.login;
 
 import com.project.helper.ErrorMessage;
-import com.project.helper.PasswordEncoder;
 import com.project.helper.UserHelper;
 import com.project.model.User;
 import com.project.model.response.UserResponse;
 import com.project.repository.UserRepository;
-import com.project.service.auth.AuthService;
-import io.micrometer.common.util.StringUtils;
+import com.project.service.auth.LoginService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,7 +14,7 @@ import java.util.Objects;
 
 @Service
 @Slf4j
-public class AuthServiceImpl implements AuthService {
+public class LoginServiceImpl implements LoginService {
 
   @Autowired
   private UserRepository userRepository;

@@ -182,7 +182,7 @@ public class OutfitControllerCrudIntegrationTest extends BaseIntegrationTest {
 
   @Positive
   @Test
-  public void getOutfit_shouldReturnResponse() throws Exception {
+  public void getAllOutfits_shouldReturnResponse() throws Exception {
     MvcResult result = mockMvc.perform(
         get(ProjectPath.OUTFIT + ProjectPath.FIND_ALL).accept(MediaType.APPLICATION_JSON_VALUE)
             .contentType(MediaType.APPLICATION_JSON)).andReturn();
@@ -195,7 +195,7 @@ public class OutfitControllerCrudIntegrationTest extends BaseIntegrationTest {
 
   @Positive
   @Test
-  public void findOutfitByOutfitCategoryId_shouldReturnResponse() throws Exception {
+  public void findOutfitsByOutfitCategoryId_shouldReturnResponse() throws Exception {
     MvcResult result = mockMvc.perform(
         get(ProjectPath.OUTFIT + ProjectPath.FIND_BY_OUTFIT_CATEGORY_ID).accept(MediaType.APPLICATION_JSON_VALUE)
             .contentType(MediaType.APPLICATION_JSON).param("outfitCategoryId", "1")).andReturn();
@@ -204,21 +204,29 @@ public class OutfitControllerCrudIntegrationTest extends BaseIntegrationTest {
     });
 
     assertNotNull(outfitResponses);
-    assertEquals(12, outfitResponses.size());
+    assertEquals(5, outfitResponses.size());
   }
 
   @Positive
   @Test
-  public void findById_shouldReturnResponse() throws Exception {
+  public void findOutfitById_shouldReturnResponse() throws Exception {
+    Outfit outfit = new Outfit();
+    outfit.setId(100);
+    outfit.setOutfitCategoryId(outfitRequest.getOutfitCategoryId());
+    outfit.setName(outfitRequest.getName());
+    outfit.setIsDeleted(0);
+    this.outfitRepository.save(outfit);
+
     MvcResult result = mockMvc.perform(
         get(ProjectPath.OUTFIT + ProjectPath.FIND_BY_ID).accept(MediaType.APPLICATION_JSON_VALUE)
-            .contentType(MediaType.APPLICATION_JSON).param("id", "1")).andReturn();
+            .contentType(MediaType.APPLICATION_JSON).param("id", "100")).andReturn();
 
     OutfitResponse outfitResponse = getContent(result, new TypeReference<OutfitResponse>() {
     });
 
     assertNotNull(outfitResponse);
-    assertEquals("Silver Blush", outfitResponse.getName());
+    assertEquals(outfitRequest.getName(), outfitResponse.getName());
+    this.outfitRepository.delete(outfit);
   }
 
   @Positive
