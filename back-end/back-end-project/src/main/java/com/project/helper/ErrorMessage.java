@@ -20,7 +20,5 @@ public class ErrorMessage {
   public static final String GOWN_NAME_REQUIRED = "Save portfolio failed! Gown name cannot be null!";
   public static final String EVENT_DATE_REQUIRED = "Save portfolio failed! Event date cannot be null!";
   public static final String VENUE_REQUIRED = "Save portfolio failed! Venue cannot be null!";
-  public static final String COLUMN_REQUIRED = "Save portfolio failed! Column cannot be null!";
   public static final String NAME_REQUIRED = "Save portfolio failed! Name cannot be null!";
-  public static final String EVENT_NAME_REQUIRED = "Save portfolio failed! Event name cannot be null!";
 }

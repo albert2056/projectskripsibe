@@ -23,8 +23,6 @@ public class Portfolio {
   private Date eventDate;
   private String venue;
   private String wo;
-  private Integer column;
   private String name;
-  private String eventName;
   private Integer isDeleted;
 }

@@ -48,8 +48,7 @@ public class PortfolioServiceImpl implements PortfolioService {
     Update update =
         new Update().set("image", portfolio.getImage()).set("gownName", portfolio.getGownName())
             .set("eventDate", portfolio.getEventDate()).set("venue", portfolio.getVenue())
-            .set("wo", portfolio.getWo()).set("column", portfolio.getColumn())
-            .set("name", portfolio.getName()).set("eventName", portfolio.getEventName());
+            .set("wo", portfolio.getWo()).set("name", portfolio.getName());
 
     this.mongoTemplate.updateMulti(query, update, Portfolio.class);
     return this.portfolioRepository.findByIdAndIsDeleted(id, 0);
@@ -88,12 +87,8 @@ public class PortfolioServiceImpl implements PortfolioService {
     if (StringUtils.isNotBlank(portfolioRequest.getWo())) {
       portfolio.setWo(portfolioRequest.getWo());
     }
-    portfolio.setColumn(Optional.ofNullable(portfolioRequest.getColumn())
-        .orElseThrow(() -> new Exception(ErrorMessage.COLUMN_REQUIRED)));
     portfolio.setName(Optional.ofNullable(portfolioRequest.getName())
         .orElseThrow(() -> new Exception(ErrorMessage.NAME_REQUIRED)));
-    portfolio.setEventName(Optional.ofNullable(portfolioRequest.getEventName())
-        .orElseThrow(() -> new Exception(ErrorMessage.EVENT_NAME_REQUIRED)));
     return portfolio;
   }
 

@@ -18,9 +18,7 @@ public class PortfolioHelper {
     portfolioResponse.setEventDate(portfolio.getEventDate());
     portfolioResponse.setVenue(portfolio.getVenue());
     portfolioResponse.setWo(portfolio.getWo());
-    portfolioResponse.setColumn(portfolio.getColumn());
     portfolioResponse.setName(portfolio.getName());
-    portfolioResponse.setEventName(portfolio.getEventName());
     portfolioResponse.setIsDeleted(portfolio.getIsDeleted());
     return portfolioResponse;
   }

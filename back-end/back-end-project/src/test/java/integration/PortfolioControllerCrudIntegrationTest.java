@@ -45,9 +45,7 @@ public class PortfolioControllerCrudIntegrationTest extends BaseIntegrationTest 
     portfolioRequest.setEventDate(new Date());
     portfolioRequest.setVenue("Grand Hall");
     portfolioRequest.setWo("Albert");
-    portfolioRequest.setColumn(1);
     portfolioRequest.setName("Wedding");
-    portfolioRequest.setEventName("Wedding Event");
   }
 
   @Positive
@@ -129,9 +127,7 @@ public class PortfolioControllerCrudIntegrationTest extends BaseIntegrationTest 
     portfolioRequest.setGownName("Elegant Gown2");
     portfolioRequest.setVenue("Grand Hall2");
     portfolioRequest.setWo("Albert2");
-    portfolioRequest.setColumn(2);
     portfolioRequest.setName("Wedding2");
-    portfolioRequest.setEventName("Wedding Event2");
 
     mockMvc.perform(
         post(ProjectPath.PORTFOLIO + ProjectPath.UPDATE).accept(MediaType.APPLICATION_JSON_VALUE)
@@ -145,9 +141,7 @@ public class PortfolioControllerCrudIntegrationTest extends BaseIntegrationTest 
     assertEquals("Elegant Gown2", portfolioUpdated.getGownName());
     assertEquals("Grand Hall2", portfolioUpdated.getVenue());
     assertEquals("Albert2", portfolioUpdated.getWo());
-    assertEquals(2, portfolioUpdated.getColumn());
     assertEquals("Wedding2", portfolioUpdated.getName());
-    assertEquals("Wedding Event2", portfolioUpdated.getEventName());
 
     portfolioRepository.delete(portfolioUpdated);
     this.idHelper.decrementSequenceId(Portfolio.COLLECTION_NAME);
@@ -172,9 +166,7 @@ public class PortfolioControllerCrudIntegrationTest extends BaseIntegrationTest 
     portfolioRequest.setImage("Albert2.png");
     portfolioRequest.setGownName("Elegant Gown2");
     portfolioRequest.setVenue("Grand Hall2");
-    portfolioRequest.setColumn(2);
     portfolioRequest.setName("Wedding2");
-    portfolioRequest.setEventName("Wedding Event2");
 
     mockMvc.perform(
         post(ProjectPath.PORTFOLIO + ProjectPath.UPDATE).accept(MediaType.APPLICATION_JSON_VALUE)
@@ -187,9 +179,7 @@ public class PortfolioControllerCrudIntegrationTest extends BaseIntegrationTest 
     assertEquals("Albert2.png", portfolioUpdated.getImage());
     assertEquals("Elegant Gown2", portfolioUpdated.getGownName());
     assertEquals("Grand Hall2", portfolioUpdated.getVenue());
-    assertEquals(2, portfolioUpdated.getColumn());
     assertEquals("Wedding2", portfolioUpdated.getName());
-    assertEquals("Wedding Event2", portfolioUpdated.getEventName());
 
     portfolioRepository.delete(portfolioUpdated);
     this.idHelper.decrementSequenceId(Portfolio.COLLECTION_NAME);
@@ -215,9 +205,7 @@ public class PortfolioControllerCrudIntegrationTest extends BaseIntegrationTest 
     portfolioRequest.setGownName("Elegant Gown2");
     portfolioRequest.setVenue("Grand Hall2");
     portfolioRequest.setWo("Albert2");
-    portfolioRequest.setColumn(2);
     portfolioRequest.setName("Wedding2");
-    portfolioRequest.setEventName("Wedding Event2");
 
     MvcResult result2 = mockMvc.perform(
         post(ProjectPath.PORTFOLIO + ProjectPath.UPDATE).accept(MediaType.APPLICATION_JSON_VALUE)
