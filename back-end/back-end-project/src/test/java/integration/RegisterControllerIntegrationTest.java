@@ -38,7 +38,7 @@ public class RegisterControllerIntegrationTest extends BaseIntegrationTest {
     userRequest.setRoleId(1);
     userRequest.setName("name");
     userRequest.setPhoneNumber("1234567890");
-    userRequest.setEmail("albert@gmail.com");
+    userRequest.setEmail("albertakira@gmail.com");
     userRequest.setPassword("Albert1234");
   }
 
@@ -59,6 +59,27 @@ public class RegisterControllerIntegrationTest extends BaseIntegrationTest {
 
     this.userRepository.delete(user);
     this.idHelper.decrementSequenceId(User.COLLECTION_NAME);
+  }
+
+  @Negative
+  @Test
+  public void register_duplicateEmail_shouldReturnErrorResponse() throws Exception {
+    User user = new User();
+    user.setId(100);
+    user.setEmail("albertakira@gmail.com");
+    user.setIsDeleted(0);
+    userRepository.save(user);
+
+    MvcResult result = mockMvc.perform(
+        post(ProjectPath.REGISTER).accept(MediaType.APPLICATION_JSON_VALUE)
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(new ObjectMapper().writeValueAsString(userRequest))).andReturn();
+    UserResponse userResponse = getContent(result, new TypeReference<UserResponse>() {
+    });
+
+    assertEquals(401, userResponse.getStatusCode());
+    assertEquals(ErrorMessage.DUPLICATE_EMAIL, userResponse.getDescription());
+    this.userRepository.delete(user);
   }
 
   @Negative

@@ -78,6 +78,10 @@ public class UserServiceImpl implements UserService {
   }
 
   private void validateEmailAndPassword(String email, String password) throws Exception {
+    User user = userRepository.findFirstByEmailAndIsDeleted(email, 0);
+    if (!Objects.isNull(user)) {
+      throw new Exception(ErrorMessage.DUPLICATE_EMAIL);
+    }
     if (!validateEmail(email)) {
       throw new Exception(ErrorMessage.EMAIL);
     }

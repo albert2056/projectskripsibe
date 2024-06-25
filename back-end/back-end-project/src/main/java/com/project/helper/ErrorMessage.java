@@ -9,6 +9,7 @@ public class ErrorMessage {
   public static final String PHONENUM_LENGTH = "Register failed! Phone number length must be 10 or more";
   public static final String NAME = "Register failed! Name cannot be empty!";
   public static final String EMAIL = "Register failed! Email must contain '@'";
+  public static final String DUPLICATE_EMAIL = "Register failed! Email already exists!";
   public static final String LOGIN_NOT_MATCH = "Log in failed! Email and Password does not match!";
   public static final String USER_NOT_FOUND = "Log in failed! Email not found!";
   public static final String TOTAL_USHER = "Book failed! TotalUsher must be greater than 0";
