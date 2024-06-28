@@ -56,7 +56,7 @@ public class PortfolioCrudController {
   }
 
   @DeleteMapping(ProjectPath.DELETE)
-  public boolean deletePortfolio(@RequestParam Integer id) throws Exception {
+  public boolean deletePortfolio(@RequestParam Integer id) {
     return portfolioService.deletePortfolio(id);
   }
 

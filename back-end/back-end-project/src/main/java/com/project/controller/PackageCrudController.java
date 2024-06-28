@@ -36,7 +36,7 @@ public class PackageCrudController {
   }
 
   @DeleteMapping(ProjectPath.DELETE)
-  public boolean deletePackage(Integer id) throws Exception {
+  public boolean deletePackage(Integer id){
     return packageService.deletePackage(id);
   }
 
