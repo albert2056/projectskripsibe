@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface TransactionService {
   TransactionResponse book(BookRequest bookRequest) throws Exception;
-  Transaction getInvoice(TransactionRequest transactionRequest) throws Exception;
+  Transaction getInvoice(TransactionRequest transactionRequest);
   List<Transaction> findAllTransactions();
   List<Transaction> findTransactionsByUserId(Integer userId);
   List<Transaction> findUpcomingEvents(Integer threshold);

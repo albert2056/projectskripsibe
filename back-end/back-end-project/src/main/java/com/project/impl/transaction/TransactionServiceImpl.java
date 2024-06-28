@@ -48,7 +48,7 @@ public class TransactionServiceImpl implements TransactionService {
   }
 
   @Override
-  public Transaction getInvoice(TransactionRequest transactionRequest) throws Exception {
+  public Transaction getInvoice(TransactionRequest transactionRequest) {
     return this.constructTransaction(transactionRequest);
   }
 

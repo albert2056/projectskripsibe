@@ -40,7 +40,7 @@ public class TransactionController {
   }
 
   @PostMapping(ProjectPath.INVOICE)
-  public Transaction getInvoice(@RequestBody TransactionRequest transactionRequest) throws Exception {
+  public Transaction getInvoice(@RequestBody TransactionRequest transactionRequest) {
     return this.transactionService.getInvoice(transactionRequest);
   }
 
