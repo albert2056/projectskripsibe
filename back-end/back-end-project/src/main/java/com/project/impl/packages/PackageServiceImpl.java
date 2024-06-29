@@ -4,7 +4,6 @@ import com.project.helper.IdHelper;
 import com.project.model.Package;
 import com.project.repository.PackageRepository;
 import com.project.service.packages.PackageService;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Query;
@@ -18,7 +17,6 @@ import java.util.Objects;
 import static org.springframework.data.mongodb.core.query.Criteria.where;
 
 @Service
-@Slf4j
 public class PackageServiceImpl implements PackageService {
 
   @Autowired

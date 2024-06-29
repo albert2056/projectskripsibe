@@ -9,7 +9,6 @@ import com.project.model.request.UserRequest;
 import com.project.model.response.UserResponse;
 import com.project.repository.UserRepository;
 import com.project.service.user.UserService;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Query;
@@ -23,7 +22,6 @@ import java.util.Objects;
 import static org.springframework.data.mongodb.core.query.Criteria.where;
 
 @Service
-@Slf4j
 public class UserServiceImpl implements UserService {
 
   @Autowired

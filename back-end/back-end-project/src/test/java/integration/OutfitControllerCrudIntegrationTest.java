@@ -204,7 +204,7 @@ public class OutfitControllerCrudIntegrationTest extends BaseIntegrationTest {
     });
 
     assertNotNull(outfitResponses);
-    assertEquals(5, outfitResponses.size());
+    assertEquals(6, outfitResponses.size());
   }
 
   @Positive

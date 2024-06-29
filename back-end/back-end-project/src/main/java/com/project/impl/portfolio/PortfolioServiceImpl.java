@@ -6,7 +6,6 @@ import com.project.model.Portfolio;
 import com.project.model.request.PortfolioRequest;
 import com.project.repository.PortfolioRepository;
 import com.project.service.portfolio.PortfolioService;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -21,7 +20,6 @@ import java.util.Optional;
 import static org.springframework.data.mongodb.core.query.Criteria.where;
 
 @Service
-@Slf4j
 public class PortfolioServiceImpl implements PortfolioService {
 
   @Autowired

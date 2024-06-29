@@ -3,7 +3,6 @@ package integration;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.application.ProjectSkripsiApplication;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -13,7 +12,6 @@ import org.springframework.test.web.servlet.MvcResult;
 
 @SpringBootTest(classes = ProjectSkripsiApplication.class)
 @AutoConfigureMockMvc
-@Slf4j
 @TestPropertySource(locations = {"/application.properties"})
 public class BaseIntegrationTest {
   @Autowired

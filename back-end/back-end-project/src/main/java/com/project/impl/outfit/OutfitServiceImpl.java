@@ -3,12 +3,10 @@ package com.project.impl.outfit;
 import com.project.helper.IdHelper;
 import com.project.model.Outfit;
 import com.project.model.OutfitCategory;
-import com.project.model.User;
 import com.project.model.request.OutfitRequest;
 import com.project.repository.OutfitCategoryRepository;
 import com.project.repository.OutfitRepository;
 import com.project.service.outift.OutfitService;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -23,7 +21,6 @@ import java.util.Objects;
 import static org.springframework.data.mongodb.core.query.Criteria.where;
 
 @Service
-@Slf4j
 public class OutfitServiceImpl implements OutfitService {
 
   @Autowired

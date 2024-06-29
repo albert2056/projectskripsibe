@@ -12,7 +12,6 @@ import com.project.repository.PackageRepository;
 import com.project.repository.TransactionRepository;
 import com.project.service.transaction.TransactionService;
 import io.micrometer.common.util.StringUtils;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Query;
@@ -26,7 +25,6 @@ import java.util.Objects;
 import static org.springframework.data.mongodb.core.query.Criteria.where;
 
 @Service
-@Slf4j
 public class TransactionServiceImpl implements TransactionService {
 
   @Autowired
