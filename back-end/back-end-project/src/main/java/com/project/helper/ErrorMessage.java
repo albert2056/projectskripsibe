@@ -18,7 +18,7 @@ public class ErrorMessage {
   public static final String NAME_EMPTY = "Book failed! Name cannot be null or empty";
   public static final String VENUE_EMPTY = "Book failed! Venue cannot be null or empty";
   public static final String IMAGE_REQUIRED = "Save portfolio failed! Image cannot be null!";
-  public static final String GOWN_NAME_REQUIRED = "Save portfolio failed! Gown name cannot be null!";
+  public static final String OUTFIT_ID_REQUIRED = "Save portfolio failed! Outfit Id cannot be null!";
   public static final String EVENT_DATE_REQUIRED = "Save portfolio failed! Event date cannot be null!";
   public static final String VENUE_REQUIRED = "Save portfolio failed! Venue cannot be null!";
   public static final String NAME_REQUIRED = "Save portfolio failed! Name cannot be null!";

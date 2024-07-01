@@ -14,7 +14,7 @@ import java.util.Date;
 public class PortfolioResponse {
   private Integer id;
   private String image;
-  private String gownName;
+  private Integer outfitId;
   private Date eventDate;
   private String venue;
   private String wo;

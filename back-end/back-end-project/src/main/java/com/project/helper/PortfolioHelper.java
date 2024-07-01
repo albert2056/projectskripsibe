@@ -14,7 +14,7 @@ public class PortfolioHelper {
     PortfolioResponse portfolioResponse = new PortfolioResponse();
     portfolioResponse.setId(portfolio.getId());
     portfolioResponse.setImage(portfolio.getImage());
-    portfolioResponse.setGownName(portfolio.getGownName());
+    portfolioResponse.setOutfitId(portfolio.getOutfitId());
     portfolioResponse.setEventDate(portfolio.getEventDate());
     portfolioResponse.setVenue(portfolio.getVenue());
     portfolioResponse.setWo(portfolio.getWo());

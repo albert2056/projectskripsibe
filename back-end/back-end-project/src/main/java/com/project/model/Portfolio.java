@@ -19,7 +19,7 @@ public class Portfolio {
   @Id
   private Integer id;
   private String image;
-  private String gownName;
+  private Integer outfitId;
   private Date eventDate;
   private String venue;
   private String wo;

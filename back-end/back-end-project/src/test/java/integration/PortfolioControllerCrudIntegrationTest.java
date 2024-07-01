@@ -41,7 +41,7 @@ public class PortfolioControllerCrudIntegrationTest extends BaseIntegrationTest 
   public void setUp() {
     portfolioRequest = new PortfolioRequest();
     portfolioRequest.setImage("Albert.png");
-    portfolioRequest.setGownName("Elegant Gown");
+    portfolioRequest.setOutfitId(1);
     portfolioRequest.setEventDate(new Date());
     portfolioRequest.setVenue("Grand Hall");
     portfolioRequest.setWo("Albert");
@@ -124,7 +124,7 @@ public class PortfolioControllerCrudIntegrationTest extends BaseIntegrationTest 
     assertNotNull(portfolio);
 
     portfolioRequest.setImage("Albert2.png");
-    portfolioRequest.setGownName("Elegant Gown2");
+    portfolioRequest.setOutfitId(2);
     portfolioRequest.setVenue("Grand Hall2");
     portfolioRequest.setWo("Albert2");
     portfolioRequest.setName("Wedding2");
@@ -138,7 +138,7 @@ public class PortfolioControllerCrudIntegrationTest extends BaseIntegrationTest 
     assertNotNull(portfolioUpdated);
 
     assertEquals("Albert2.png", portfolioUpdated.getImage());
-    assertEquals("Elegant Gown2", portfolioUpdated.getGownName());
+    assertEquals(2, portfolioUpdated.getOutfitId());
     assertEquals("Grand Hall2", portfolioUpdated.getVenue());
     assertEquals("Albert2", portfolioUpdated.getWo());
     assertEquals("Wedding2", portfolioUpdated.getName());
@@ -164,7 +164,7 @@ public class PortfolioControllerCrudIntegrationTest extends BaseIntegrationTest 
     assertNotNull(portfolio);
 
     portfolioRequest.setImage("Albert2.png");
-    portfolioRequest.setGownName("Elegant Gown2");
+    portfolioRequest.setOutfitId(2);
     portfolioRequest.setVenue("Grand Hall2");
     portfolioRequest.setName("Wedding2");
 
@@ -177,7 +177,7 @@ public class PortfolioControllerCrudIntegrationTest extends BaseIntegrationTest 
     assertNotNull(portfolioUpdated);
 
     assertEquals("Albert2.png", portfolioUpdated.getImage());
-    assertEquals("Elegant Gown2", portfolioUpdated.getGownName());
+    assertEquals(2, portfolioUpdated.getOutfitId());
     assertEquals("Grand Hall2", portfolioUpdated.getVenue());
     assertEquals("Wedding2", portfolioUpdated.getName());
 
@@ -202,7 +202,7 @@ public class PortfolioControllerCrudIntegrationTest extends BaseIntegrationTest 
     assertNotNull(portfolio);
 
     portfolioRequest.setImage(null);
-    portfolioRequest.setGownName("Elegant Gown2");
+    portfolioRequest.setOutfitId(2);
     portfolioRequest.setVenue("Grand Hall2");
     portfolioRequest.setWo("Albert2");
     portfolioRequest.setName("Wedding2");

@@ -44,7 +44,7 @@ public class PortfolioServiceImpl implements PortfolioService {
     Portfolio portfolio = this.generatePortfolio(portfolioRequest);
     Query query = new Query(where("_id").is(id));
     Update update =
-        new Update().set("image", portfolio.getImage()).set("gownName", portfolio.getGownName())
+        new Update().set("image", portfolio.getImage()).set("outfitId", portfolio.getOutfitId())
             .set("eventDate", portfolio.getEventDate()).set("venue", portfolio.getVenue())
             .set("wo", portfolio.getWo()).set("name", portfolio.getName());
 
@@ -76,8 +76,8 @@ public class PortfolioServiceImpl implements PortfolioService {
     Portfolio portfolio = new Portfolio();
     portfolio.setImage(Optional.ofNullable(portfolioRequest.getImage())
         .orElseThrow(() -> new Exception(ErrorMessage.IMAGE_REQUIRED)));
-    portfolio.setGownName(Optional.ofNullable(portfolioRequest.getGownName())
-        .orElseThrow(() -> new Exception(ErrorMessage.GOWN_NAME_REQUIRED)));
+    portfolio.setOutfitId(Optional.ofNullable(portfolioRequest.getOutfitId())
+        .orElseThrow(() -> new Exception(ErrorMessage.OUTFIT_ID_REQUIRED)));
     portfolio.setEventDate(Optional.ofNullable(portfolioRequest.getEventDate())
         .orElseThrow(() -> new Exception(ErrorMessage.EVENT_DATE_REQUIRED)));
     portfolio.setVenue(Optional.ofNullable(portfolioRequest.getVenue())

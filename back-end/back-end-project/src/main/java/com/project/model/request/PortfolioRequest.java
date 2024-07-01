@@ -13,7 +13,7 @@ import java.util.Date;
 @Builder
 public class PortfolioRequest {
   private String image;
-  private String gownName;
+  private Integer outfitId;
   private Date eventDate;
   private String venue;
   private String wo;
