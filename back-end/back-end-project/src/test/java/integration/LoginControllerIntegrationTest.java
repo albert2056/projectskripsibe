@@ -9,7 +9,6 @@ import com.project.model.response.UserResponse;
 import com.project.repository.UserRepository;
 import jakarta.validation.constraints.Negative;
 import jakarta.validation.constraints.Positive;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -28,11 +27,6 @@ public class LoginControllerIntegrationTest extends BaseIntegrationTest {
   @Autowired
   private UserHelper userHelper;
 
-  @BeforeEach
-  public void setUp() {
-    userRepository.deleteAll();
-  }
-
   @Positive
   @Test
   public void login_shouldReturnResponse() throws Exception {
@@ -46,6 +40,7 @@ public class LoginControllerIntegrationTest extends BaseIntegrationTest {
     });
 
     assertNull(userResponse.getStatusCode());
+    this.userRepository.delete(user);
   }
 
   @Negative
@@ -76,6 +71,7 @@ public class LoginControllerIntegrationTest extends BaseIntegrationTest {
 
     assertNotNull(userResponse.getStatusCode());
     assertEquals(ErrorMessage.LOGIN_NOT_MATCH, userResponse.getDescription());
+    this.userRepository.delete(user);
   }
 
   @Negative
@@ -92,6 +88,7 @@ public class LoginControllerIntegrationTest extends BaseIntegrationTest {
 
     assertNotNull(userResponse.getStatusCode());
     assertEquals(ErrorMessage.USER_NOT_FOUND, userResponse.getDescription());
+    this.userRepository.delete(user);
   }
 
   private User createUser(){
